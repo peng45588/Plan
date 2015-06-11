@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://localhost:3306/Plan</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">PENGZHI</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <mapping resource="com/plan/data/FriendEntity.hbm.xml"/>
+        <mapping class="com.plan.data.FriendEntity"/>
+        <mapping resource="com/plan/data/LocationOfPlanEntity.hbm.xml"/>
+        <mapping class="com.plan.data.LocationOfPlanEntity"/>
+        <mapping resource="com/plan/data/PeopleInPlanEntity.hbm.xml"/>
+        <mapping class="com.plan.data.PeopleInPlanEntity"/>
+        <mapping class="com.plan.data.PlanEntity"/>
+        <mapping resource="com/plan/data/PlanEntity.hbm.xml"/>
+        <mapping resource="com/plan/data/TimeOfPlanEntity.hbm.xml"/>
+        <mapping class="com.plan.data.TimeOfPlanEntity"/>
+        <mapping resource="com/plan/data/UserEntity.hbm.xml"/>
+        <mapping class="com.plan.data.UserEntity"/>
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>

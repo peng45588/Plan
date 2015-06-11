@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+        <package name="plan" extends="struts-default">
+                <action name="login" class="com.plan.server.Login"></action>
+                <action name="register" class="com.plan.server.Register"></action>
+                <action name="recommend" class="com.plan.server.Recommend"></action>
+                <action name="add_friend" class="com.plan.server.AddFriend"></action>
+                <action name="delete_friend" class="com.plan.server.DeleteFriend"></action>
+                <action name="view" class="com.plan.server.View"></action>
+                <action name="invite" class="com.plan.server.Invite"></action>
+                <action name="start" class="com.plan.server.Start"></action>
+                <action name="view_stat" class="com.plan.server.ViewStat"></action>
+                <action name="confirm_plan" class="com.plan.server.ConfirmPlan"></action>
+                <action name="return_plan" class="com.plan.server.ReturnPlan"></action>
+                <action name="get_friendlist" class="com.plan.server.GetFriendList"></action>
+
+        </package>
+</struts>
