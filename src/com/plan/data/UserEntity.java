@@ -3,7 +3,7 @@ package com.plan.data;
 import javax.persistence.*;
 
 /**
- * Created by snow on 15-6-10.
+ * Created by snow on 15-6-12.
  */
 @Entity
 @Table(name = "User", schema = "", catalog = "Plan")
@@ -13,6 +13,7 @@ public class UserEntity {
     private String nickname;
     private String phone;
     private String avatag;
+    private String token;
 
     @Id
     @Column(name = "account")
@@ -64,6 +65,16 @@ public class UserEntity {
         this.avatag = avatag;
     }
 
+    @Basic
+    @Column(name = "token")
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,6 +87,7 @@ public class UserEntity {
         if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
         if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
         if (avatag != null ? !avatag.equals(that.avatag) : that.avatag != null) return false;
+        if (token != null ? !token.equals(that.token) : that.token != null) return false;
 
         return true;
     }
@@ -87,6 +99,7 @@ public class UserEntity {
         result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (avatag != null ? avatag.hashCode() : 0);
+        result = 31 * result + (token != null ? token.hashCode() : 0);
         return result;
     }
 }

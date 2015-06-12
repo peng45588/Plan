@@ -10,5 +10,6 @@
         <property name="nickname" column="nickname"/>
         <property name="phone" column="phone"/>
         <property name="avatag" column="avatag"/>
+        <property name="token" column="token"/>
     </class>
 </hibernate-mapping>

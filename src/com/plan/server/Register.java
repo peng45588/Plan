@@ -40,7 +40,6 @@ public class Register extends ActionSupport implements ServletResponseAware {
         JSONObject obj = new JSONObject();
         try {
             DataOpetate dataOpetate = new DataOpetate();
-            dataOpetate.Start();
             dataOpetate.Save(user);
             dataOpetate.Close();
             obj.put("status",1);

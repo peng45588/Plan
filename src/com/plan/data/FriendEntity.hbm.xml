@@ -4,9 +4,4 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.plan.data.FriendEntity" table="Friend" schema="" catalog="Plan">
-        <id name="id" column="id"/>
-        <property name="friendAccount" column="friendAccount"/>
-        <property name="userAccount" column="userAccount"/>
-    </class>
 </hibernate-mapping>
