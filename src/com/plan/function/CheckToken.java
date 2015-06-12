@@ -1,32 +1,28 @@
 package com.plan.function;
 
+import com.plan.data.UserEntity;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * Created by snow on 15-6-1.
  */
 public class CheckToken {
 
-    public static boolean CheckToken(String account, Connection con, String token) {
-        String sql = "SELECT * FROM User WHERE account=\'" + account + "\'";
+    public static boolean CheckToken(DataOpetate dataOpetate, String account, String token) {
         try {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                if (rs.getString("token").equals(token)) {
-                    if (rs != null) {
-                        rs.close();
-                    }
+            List it = dataOpetate.SelectTb("select user from UserEntity as user where user.account like " + account);
+            if (it.size()==1) {
+                UserEntity user = (UserEntity) it.get(0);
+                if (user.getToken().equals(token)) {//判斷token是否正確
                     return true;
                 }
             }
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;

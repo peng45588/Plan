@@ -3,8 +3,12 @@ package com.plan.server;/**
  */
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.plan.data.FriendEntity;
+import com.plan.function.CheckToken;
+import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +29,27 @@ public class AddFriend extends ActionSupport implements ServletResponseAware {
     public String execute() {
         String ret = "";
         JSONObject obj = new JSONObject();
+        try{
+            DataOpetate dataOpetate = new DataOpetate();
+            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            if (istoken) {//token正確
+                FriendEntity fe = new FriendEntity();
+                fe.setUserAccount(account);
+                fe.setFriendAccount(friend_account);
+                dataOpetate.Save(fe);
+                fe.setUserAccount(friend_account);
+                fe.setFriendAccount(account);
+                dataOpetate.Save(fe);
+                obj.put("status",1);
+            }
+        }catch (Exception e){
+            try {
+                obj.put("status",0);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+
         ret = obj.toString();
         PrintToHtml.PrintToHtml(response, ret);
         return null;

@@ -19,5 +19,5 @@ public interface DataOperateimp {
     public void Save(Object o);
     public List SelectTb(String hql);
     public void UpdataTb(Object o);
-    public void DeleteTb();
+    public void DeleteTb(String hql);
 }

@@ -4,10 +4,4 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.plan.data.LocationOfPlanEntity" table="LocationOfPlan" schema="" catalog="Plan">
-        <id name="id" column="id"/>
-        <property name="planId" column="planId"/>
-        <property name="location" column="location"/>
-        <property name="number" column="number"/>
-    </class>
 </hibernate-mapping>

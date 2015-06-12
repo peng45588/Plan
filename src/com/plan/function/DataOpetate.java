@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,7 +50,7 @@ public class DataOpetate implements DataOperateimp {
         Query query = this.session.createQuery(hql);
         //query.setString("account","%"+name+"%");
         it = query.list();
-        this.session.getTransaction().commit();;
+        this.session.getTransaction().commit();
         this.session.close();
         return it;
     }
@@ -59,17 +60,25 @@ public class DataOpetate implements DataOperateimp {
      * @param o 更新的對象
      */
     public void UpdataTb(Object o){
-        session = sf.openSession();
-        session.beginTransaction();
-        session.update(o);
-        session.getTransaction().commit();
-        session.close();
+        this.session = sf.openSession();
+        this.session.beginTransaction();
+        this.session.update(o);
+        this.session.getTransaction().commit();
+        this.session.close();
     }
-    //TODO
-    public void DeleteTb(){
-        session = sf.openSession();
-        session.beginTransaction();
-
-        session.close();
+    //delete FriendEntity as fe where fe.userAccount=" + account;
+    public void DeleteTb(String hql){
+        this.session = sf.openSession();
+        this.session.beginTransaction();
+        this.session.createQuery(hql).executeUpdate();
+        this.session.getTransaction().commit();
+        this.session.close();
+    }
+    public void Delete(Object o){
+        this.session = sf.openSession();
+        this.session.beginTransaction();
+        this.session.delete(o);
+        this.session.getTransaction().commit();
+        this.session.close();
     }
 }

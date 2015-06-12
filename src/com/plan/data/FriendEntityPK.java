@@ -1,19 +1,18 @@
 package com.plan.data;
 
-import javax.persistence.Entity;
+import javax.persistence.Column;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * Created by snow on 15-6-12.
  */
-@Entity
-@javax.persistence.Table(name = "Friend", schema = "", catalog = "Plan")
-@javax.persistence.IdClass(com.plan.data.FriendEntityPK.class)
-public class FriendEntity {
+public class FriendEntityPK implements Serializable {
     private String friendAccount;
+    private String userAccount;
 
+    @Column(name = "friendAccount")
     @Id
-    @javax.persistence.Column(name = "friendAccount")
     public String getFriendAccount() {
         return friendAccount;
     }
@@ -22,10 +21,8 @@ public class FriendEntity {
         this.friendAccount = friendAccount;
     }
 
-    private String userAccount;
-
+    @Column(name = "userAccount")
     @Id
-    @javax.persistence.Column(name = "userAccount")
     public String getUserAccount() {
         return userAccount;
     }
@@ -39,7 +36,7 @@ public class FriendEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FriendEntity that = (FriendEntity) o;
+        FriendEntityPK that = (FriendEntityPK) o;
 
         if (friendAccount != null ? !friendAccount.equals(that.friendAccount) : that.friendAccount != null)
             return false;

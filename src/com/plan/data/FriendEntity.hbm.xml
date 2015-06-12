@@ -4,4 +4,10 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
+    <class name="com.plan.data.FriendEntity" table="Friend" schema="" catalog="Plan">
+        <composite-id mapped="true" class="com.plan.data.FriendEntityPK">
+            <key-property name="friendAccount" column="friendAccount"/>
+            <key-property name="userAccount" column="userAccount"/>
+        </composite-id>
+    </class>
 </hibernate-mapping>

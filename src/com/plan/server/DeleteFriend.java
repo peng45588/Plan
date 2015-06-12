@@ -3,8 +3,12 @@ package com.plan.server;/**
  */
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.plan.data.FriendEntity;
+import com.plan.function.CheckToken;
+import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +29,26 @@ public class DeleteFriend extends ActionSupport implements ServletResponseAware 
     public String execute() {
         String ret = "";
         JSONObject obj = new JSONObject();
+        try {
+            DataOpetate dataOpetate = new DataOpetate();
+            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            if (istoken) {
+                FriendEntity fe = new FriendEntity();
+                fe.setUserAccount(account);
+                fe.setFriendAccount(friend_account);
+                dataOpetate.Delete(fe);
+                fe.setUserAccount(friend_account);
+                fe.setFriendAccount(account);
+                dataOpetate.Delete(fe);
+                obj.put("status", 1);
+            }
+        } catch (Exception e) {
+            try {
+                obj.put("status", 0);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
         ret = obj.toString();
         PrintToHtml.PrintToHtml(response, ret);
         return null;
@@ -46,11 +70,11 @@ public class DeleteFriend extends ActionSupport implements ServletResponseAware 
         this.token = token;
     }
 
-    public String getFriendAccount() {
+    public String getFriend_account() {
         return friend_account;
     }
 
-    public void setFriendAccount(String friend_account) {
+    public void setFriend_account(String friend_account) {
         this.friend_account = friend_account;
     }
 

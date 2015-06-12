@@ -41,10 +41,7 @@ public class Register extends ActionSupport implements ServletResponseAware {
         try {
             DataOpetate dataOpetate = new DataOpetate();
             dataOpetate.Save(user);
-            dataOpetate.Close();
             obj.put("status",1);
-        }catch (JSONException e){
-
         }catch (Exception e){
             try {
                 System.err.println(e+"\nshfe");
