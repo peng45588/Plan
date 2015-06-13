@@ -5,11 +5,23 @@
 <hibernate-mapping>
 
     <class name="com.plan.data.PlanEntity" table="Plan" schema="" catalog="Plan">
-        <id name="planId" column="planId"/>
-        <property name="title" column="title"/>
-        <property name="time" column="time"/>
-        <property name="location" column="location"/>
-        <property name="info" column="info"/>
-        <property name="deadline" column="deadline"/>
+        <id name="planId">
+            <column name="planId" sql-type="int" not-null="true"/>
+        </id>
+        <property name="title">
+            <column name="title" sql-type="varchar" length="45" not-null="true"/>
+        </property>
+        <property name="time">
+            <column name="time" sql-type="bigint"/>
+        </property>
+        <property name="location">
+            <column name="location" sql-type="varchar" length="45"/>
+        </property>
+        <property name="info">
+            <column name="info" sql-type="varchar" length="180" not-null="true"/>
+        </property>
+        <property name="deadline">
+            <column name="deadline" sql-type="bigint" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>

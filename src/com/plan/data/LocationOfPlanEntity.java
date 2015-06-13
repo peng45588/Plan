@@ -3,7 +3,7 @@ package com.plan.data;
 import javax.persistence.*;
 
 /**
- * Created by snow on 15-6-10.
+ * Created by snow on 15-6-13.
  */
 @Entity
 @Table(name = "LocationOfPlan", schema = "", catalog = "Plan")
@@ -14,7 +14,7 @@ public class LocationOfPlanEntity {
     private int id;
 
     @Basic
-    @Column(name = "planId")
+    @Column(name = "planId", nullable = false, insertable = true, updatable = true)
     public int getPlanId() {
         return planId;
     }
@@ -24,7 +24,7 @@ public class LocationOfPlanEntity {
     }
 
     @Basic
-    @Column(name = "location")
+    @Column(name = "location", nullable = false, insertable = true, updatable = true, length = 45)
     public String getLocation() {
         return location;
     }
@@ -34,7 +34,7 @@ public class LocationOfPlanEntity {
     }
 
     @Basic
-    @Column(name = "number")
+    @Column(name = "number", nullable = false, insertable = true, updatable = true)
     public int getNumber() {
         return number;
     }
@@ -44,7 +44,7 @@ public class LocationOfPlanEntity {
     }
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, insertable = true, updatable = true)
     public int getId() {
         return id;
     }

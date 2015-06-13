@@ -3,7 +3,7 @@ package com.plan.data;
 import javax.persistence.*;
 
 /**
- * Created by snow on 15-6-12.
+ * Created by snow on 15-6-13.
  */
 @Entity
 @Table(name = "User", schema = "", catalog = "Plan")
@@ -16,7 +16,7 @@ public class UserEntity {
     private String token;
 
     @Id
-    @Column(name = "account")
+    @Column(name = "account", nullable = false, insertable = true, updatable = true, length = 45)
     public String getAccount() {
         return account;
     }
@@ -26,7 +26,7 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, insertable = true, updatable = true, length = 45)
     public String getPassword() {
         return password;
     }
@@ -36,7 +36,7 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "nickname")
+    @Column(name = "nickname", nullable = false, insertable = true, updatable = true, length = 45)
     public String getNickname() {
         return nickname;
     }
@@ -46,7 +46,7 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = false, insertable = true, updatable = true, length = 45)
     public String getPhone() {
         return phone;
     }
@@ -56,7 +56,7 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "avatag")
+    @Column(name = "avatag", nullable = false, insertable = true, updatable = true, length = 45)
     public String getAvatag() {
         return avatag;
     }
@@ -66,7 +66,7 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "token")
+    @Column(name = "token", nullable = true, insertable = true, updatable = true, length = 45)
     public String getToken() {
         return token;
     }

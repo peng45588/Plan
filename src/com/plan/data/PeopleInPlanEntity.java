@@ -3,18 +3,18 @@ package com.plan.data;
 import javax.persistence.*;
 
 /**
- * Created by snow on 15-6-10.
+ * Created by snow on 15-6-13.
  */
 @Entity
 @Table(name = "PeopleInPlan", schema = "", catalog = "Plan")
 public class PeopleInPlanEntity {
     private String account;
     private int planId;
-    private int time;
+    private Long returnTime;
     private int id;
 
     @Basic
-    @Column(name = "account")
+    @Column(name = "account", nullable = false, insertable = true, updatable = true, length = 45)
     public String getAccount() {
         return account;
     }
@@ -24,7 +24,7 @@ public class PeopleInPlanEntity {
     }
 
     @Basic
-    @Column(name = "planId")
+    @Column(name = "planId", nullable = false, insertable = true, updatable = true)
     public int getPlanId() {
         return planId;
     }
@@ -34,17 +34,17 @@ public class PeopleInPlanEntity {
     }
 
     @Basic
-    @Column(name = "time")
-    public int getTime() {
-        return time;
+    @Column(name = "returnTime", nullable = true, insertable = true, updatable = true)
+    public Long getReturnTime() {
+        return returnTime;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setReturnTime(Long returnTime) {
+        this.returnTime = returnTime;
     }
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, insertable = true, updatable = true)
     public int getId() {
         return id;
     }
@@ -61,9 +61,9 @@ public class PeopleInPlanEntity {
         PeopleInPlanEntity that = (PeopleInPlanEntity) o;
 
         if (planId != that.planId) return false;
-        if (time != that.time) return false;
         if (id != that.id) return false;
         if (account != null ? !account.equals(that.account) : that.account != null) return false;
+        if (returnTime != null ? !returnTime.equals(that.returnTime) : that.returnTime != null) return false;
 
         return true;
     }
@@ -72,7 +72,7 @@ public class PeopleInPlanEntity {
     public int hashCode() {
         int result = account != null ? account.hashCode() : 0;
         result = 31 * result + planId;
-        result = 31 * result + time;
+        result = 31 * result + (returnTime != null ? returnTime.hashCode() : 0);
         result = 31 * result + id;
         return result;
     }

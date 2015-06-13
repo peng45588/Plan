@@ -3,20 +3,20 @@ package com.plan.data;
 import javax.persistence.*;
 
 /**
- * Created by snow on 15-6-10.
+ * Created by snow on 15-6-13.
  */
 @Entity
 @Table(name = "Plan", schema = "", catalog = "Plan")
 public class PlanEntity {
     private String title;
     private int planId;
-    private Integer time;
+    private Long time;
     private String location;
     private String info;
-    private int deadline;
+    private long deadline;
 
     @Basic
-    @Column(name = "title")
+    @Column(name = "title", nullable = false, insertable = true, updatable = true, length = 45)
     public String getTitle() {
         return title;
     }
@@ -26,7 +26,7 @@ public class PlanEntity {
     }
 
     @Id
-    @Column(name = "planId")
+    @Column(name = "planId", nullable = false, insertable = true, updatable = true)
     public int getPlanId() {
         return planId;
     }
@@ -36,17 +36,17 @@ public class PlanEntity {
     }
 
     @Basic
-    @Column(name = "time")
-    public Integer getTime() {
+    @Column(name = "time", nullable = true, insertable = true, updatable = true)
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(Integer time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 
     @Basic
-    @Column(name = "location")
+    @Column(name = "location", nullable = true, insertable = true, updatable = true, length = 45)
     public String getLocation() {
         return location;
     }
@@ -56,7 +56,7 @@ public class PlanEntity {
     }
 
     @Basic
-    @Column(name = "info")
+    @Column(name = "info", nullable = false, insertable = true, updatable = true, length = 180)
     public String getInfo() {
         return info;
     }
@@ -66,12 +66,12 @@ public class PlanEntity {
     }
 
     @Basic
-    @Column(name = "deadline")
-    public int getDeadline() {
+    @Column(name = "deadline", nullable = false, insertable = true, updatable = true)
+    public long getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(int deadline) {
+    public void setDeadline(long deadline) {
         this.deadline = deadline;
     }
 
@@ -99,7 +99,7 @@ public class PlanEntity {
         result = 31 * result + (time != null ? time.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (info != null ? info.hashCode() : 0);
-        result = 31 * result + deadline;
+        result = 31 * result + (int) (deadline ^ (deadline >>> 32));
         return result;
     }
 }

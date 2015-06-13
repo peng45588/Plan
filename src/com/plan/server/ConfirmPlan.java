@@ -3,11 +3,16 @@ package com.plan.server;/**
  */
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.plan.data.PlanEntity;
+import com.plan.function.CheckToken;
+import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class ConfirmPlan extends ActionSupport implements ServletResponseAware {
     private static final long serialVersionUID = 1L;
@@ -15,7 +20,7 @@ public class ConfirmPlan extends ActionSupport implements ServletResponseAware {
     private String account;
     private String token;
     private String plan_id;
-    private String time;
+    private long time;
     private String location;
 
     @Override
@@ -28,6 +33,33 @@ public class ConfirmPlan extends ActionSupport implements ServletResponseAware {
     public String execute() {
         String ret = "";
         JSONObject obj = new JSONObject();
+        try {
+            DataOpetate dataOpetate = new DataOpetate();
+            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            if (istoken) {//token正確
+                String hql = "from PlanEntity pe where pe.planId="+plan_id;
+                List list = dataOpetate.SelectTb(hql);
+                if (list.size()==1){
+                    PlanEntity pe = (PlanEntity) list.get(0);
+                    if (pe.getTime()==null&&pe.getLocation()==null){
+                        pe.setTime(time);
+                        pe.setLocation(location);
+                        dataOpetate.UpdataTb(pe);
+                        obj.put("status",1);
+                    }else {
+                        obj.put("status",0);
+                    }
+                }else {
+                    obj.put("status",0);
+                }
+            }
+        }catch (Exception e){
+            try {
+                obj.put("status",0);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
         ret = obj.toString();
         PrintToHtml.PrintToHtml(response, ret);
         return null;
@@ -58,11 +90,11 @@ public class ConfirmPlan extends ActionSupport implements ServletResponseAware {
     }
 
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

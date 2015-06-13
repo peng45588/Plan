@@ -5,9 +5,17 @@
 <hibernate-mapping>
 
     <class name="com.plan.data.TimeOfPlanEntity" table="TimeOfPlan" schema="" catalog="Plan">
-        <id name="id" column="id"/>
-        <property name="planId" column="planId"/>
-        <property name="time" column="time"/>
-        <property name="number" column="number"/>
+        <id name="id">
+            <column name="id" sql-type="int" not-null="true"/>
+        </id>
+        <property name="planId">
+            <column name="planId" sql-type="int" not-null="true"/>
+        </property>
+        <property name="time">
+            <column name="time" sql-type="bigint" not-null="true"/>
+        </property>
+        <property name="number">
+            <column name="number" sql-type="int" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>

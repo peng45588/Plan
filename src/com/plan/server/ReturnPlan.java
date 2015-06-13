@@ -3,11 +3,18 @@ package com.plan.server;/**
  */
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.plan.data.LocationOfPlanEntity;
+import com.plan.data.PeopleInPlanEntity;
+import com.plan.data.TimeOfPlanEntity;
+import com.plan.function.CheckToken;
+import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class ReturnPlan extends ActionSupport implements ServletResponseAware {
     private static final long serialVersionUID = 1L;
@@ -28,6 +35,50 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
     public String execute() {
         String ret = "";
         JSONObject obj = new JSONObject();
+        try {
+            DataOpetate dataOpetate = new DataOpetate();
+            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            if (istoken) {//token正確
+                String hql = "from PeopleInPlanEntity pe where pe.planId=" + plan_id;
+                List list = dataOpetate.SelectTb(hql);
+                if (list.size() == 1) {
+                    PeopleInPlanEntity pe = (PeopleInPlanEntity) list.get(0);
+                    pe.setReturnTime(time);
+                    dataOpetate.Save(pe);
+                }else {
+                    obj.put("status",0);
+                    PrintToHtml.PrintToHtml(response, ret);
+                    return null;
+                }
+                hql = "from LocationOfPlanEntity pe where pe.planId=" + plan_id;
+                list = dataOpetate.SelectTb(hql);
+                for (int i = 0; i < list.size(); i++) {
+                    LocationOfPlanEntity pe = (LocationOfPlanEntity) list.get(i);
+                    if (location_list.contains("\""+pe.getLocation()+"\"")) {
+                        pe.setNumber(pe.getNumber() + 1);
+                        dataOpetate.Save(pe);
+                    }
+                }
+                hql = "from TimeOfPlanEntity pe where pe.planId=" + plan_id;
+                list = dataOpetate.SelectTb(hql);
+                for (int i = 0; i < list.size(); i++) {
+                    TimeOfPlanEntity pe = (TimeOfPlanEntity) list.get(0);
+                    if (time_list.contains("\""+pe.getTime()+"\"")){
+                        pe.setNumber(pe.getNumber()+1);
+                        dataOpetate.Save(pe);
+                    }
+                }
+                obj.put("status",1);
+            }else {
+                obj.put("status",0);
+            }
+        } catch (Exception e) {
+            try {
+                obj.put("status", 0);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
         ret = obj.toString();
         PrintToHtml.PrintToHtml(response, ret);
         return null;

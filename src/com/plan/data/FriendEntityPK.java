@@ -5,13 +5,13 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * Created by snow on 15-6-12.
+ * Created by snow on 15-6-13.
  */
 public class FriendEntityPK implements Serializable {
     private String friendAccount;
     private String userAccount;
 
-    @Column(name = "friendAccount")
+    @Column(name = "friendAccount", nullable = false, insertable = true, updatable = true, length = 45)
     @Id
     public String getFriendAccount() {
         return friendAccount;
@@ -21,7 +21,7 @@ public class FriendEntityPK implements Serializable {
         this.friendAccount = friendAccount;
     }
 
-    @Column(name = "userAccount")
+    @Column(name = "userAccount", nullable = false, insertable = true, updatable = true, length = 45)
     @Id
     public String getUserAccount() {
         return userAccount;

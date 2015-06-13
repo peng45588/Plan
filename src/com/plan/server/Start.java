@@ -3,8 +3,16 @@ package com.plan.server;/**
  */
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.plan.data.LocationOfPlanEntity;
+import com.plan.data.PeopleInPlanEntity;
+import com.plan.data.PlanEntity;
+import com.plan.data.TimeOfPlanEntity;
+import com.plan.function.CheckToken;
+import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +38,48 @@ public class Start extends ActionSupport implements ServletResponseAware {
     public String execute() {
         String ret = "";
         JSONObject obj = new JSONObject();
+        try {
+            DataOpetate dataOpetate = new DataOpetate();
+            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            if (istoken) {//token正確
+                PlanEntity pe = new PlanEntity();
+                pe.setTitle(title);
+                pe.setDeadline(ddl);
+                pe.setInfo(info);
+                dataOpetate.Save(pe);
+                System.err.println("id:" + pe.getPlanId());
+                //存time location perple 三個表
+                JSONArray jsarray = new JSONArray(time_list);
+                for (int i = 0;i<jsarray.length();i++){
+                    TimeOfPlanEntity tope = new TimeOfPlanEntity();
+                    tope.setPlanId(pe.getPlanId());
+                    tope.setTime(jsarray.getLong(i));
+                    dataOpetate.Save(tope);
+                }
+                jsarray = new JSONArray(location_list);
+                for (int i = 0;i<jsarray.length();i++){
+                    LocationOfPlanEntity lope = new LocationOfPlanEntity();
+                    lope.setPlanId(pe.getPlanId());
+                    lope.setLocation(jsarray.getString(i));
+                    dataOpetate.Save(lope);
+                }
+                jsarray = new JSONArray(people);
+                for (int i = 0;i<jsarray.length();i++){
+                    PeopleInPlanEntity pipe = new PeopleInPlanEntity();
+                    pipe.setPlanId(pe.getPlanId());
+                    pipe.setAccount(jsarray.getString(i));
+                    dataOpetate.Save(pipe);
+                }
+                obj.put("status",1);
+                //for (int i=0;i<)
+            }
+        }catch (Exception e){
+            try {
+                obj.put("status", 0);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
         ret = obj.toString();
         PrintToHtml.PrintToHtml(response, ret);
         return null;

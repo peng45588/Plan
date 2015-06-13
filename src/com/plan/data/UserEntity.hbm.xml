@@ -5,11 +5,23 @@
 <hibernate-mapping>
 
     <class name="com.plan.data.UserEntity" table="User" schema="" catalog="Plan">
-        <id name="account" column="account"/>
-        <property name="password" column="password"/>
-        <property name="nickname" column="nickname"/>
-        <property name="phone" column="phone"/>
-        <property name="avatag" column="avatag"/>
-        <property name="token" column="token"/>
+        <id name="account">
+            <column name="account" sql-type="varchar" length="45" not-null="true"/>
+        </id>
+        <property name="password">
+            <column name="password" sql-type="varchar" length="45" not-null="true"/>
+        </property>
+        <property name="nickname">
+            <column name="nickname" sql-type="varchar" length="45" not-null="true"/>
+        </property>
+        <property name="phone">
+            <column name="phone" sql-type="varchar" length="45" not-null="true"/>
+        </property>
+        <property name="avatag">
+            <column name="avatag" sql-type="varchar" length="45" not-null="true"/>
+        </property>
+        <property name="token">
+            <column name="token" sql-type="varchar" length="45"/>
+        </property>
     </class>
 </hibernate-mapping>

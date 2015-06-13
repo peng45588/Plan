@@ -4,4 +4,18 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
+    <class name="com.plan.data.LocationOfPlanEntity" table="LocationOfPlan" schema="" catalog="Plan">
+        <id name="id">
+            <column name="id" sql-type="int" not-null="true"/>
+        </id>
+        <property name="planId">
+            <column name="planId" sql-type="int" not-null="true"/>
+        </property>
+        <property name="location">
+            <column name="location" sql-type="varchar" length="45" not-null="true"/>
+        </property>
+        <property name="number">
+            <column name="number" sql-type="int" not-null="true"/>
+        </property>
+    </class>
 </hibernate-mapping>

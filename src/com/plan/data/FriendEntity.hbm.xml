@@ -6,8 +6,12 @@
 
     <class name="com.plan.data.FriendEntity" table="Friend" schema="" catalog="Plan">
         <composite-id mapped="true" class="com.plan.data.FriendEntityPK">
-            <key-property name="friendAccount" column="friendAccount"/>
-            <key-property name="userAccount" column="userAccount"/>
+            <key-property name="friendAccount">
+                <column name="friendAccount" sql-type="varchar" length="45" not-null="true"/>
+            </key-property>
+            <key-property name="userAccount">
+                <column name="userAccount" sql-type="varchar" length="45" not-null="true"/>
+            </key-property>
         </composite-id>
     </class>
 </hibernate-mapping>

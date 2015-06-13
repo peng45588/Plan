@@ -1,19 +1,19 @@
 package com.plan.data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
- * Created by snow on 15-6-12.
+ * Created by snow on 15-6-13.
  */
 @Entity
-@javax.persistence.Table(name = "Friend", schema = "", catalog = "Plan")
-@javax.persistence.IdClass(com.plan.data.FriendEntityPK.class)
+@Table(name = "Friend", schema = "", catalog = "Plan")
+@IdClass(FriendEntityPK.class)
 public class FriendEntity {
     private String friendAccount;
+    private String userAccount;
 
     @Id
-    @javax.persistence.Column(name = "friendAccount")
+    @Column(name = "friendAccount", nullable = false, insertable = true, updatable = true, length = 45)
     public String getFriendAccount() {
         return friendAccount;
     }
@@ -22,10 +22,8 @@ public class FriendEntity {
         this.friendAccount = friendAccount;
     }
 
-    private String userAccount;
-
     @Id
-    @javax.persistence.Column(name = "userAccount")
+    @Column(name = "userAccount", nullable = false, insertable = true, updatable = true, length = 45)
     public String getUserAccount() {
         return userAccount;
     }

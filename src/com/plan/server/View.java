@@ -3,11 +3,17 @@ package com.plan.server;/**
  */
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.plan.data.PlanEntity;
+import com.plan.function.CheckToken;
+import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class View extends ActionSupport implements ServletResponseAware {
     private static final long serialVersionUID = 1L;
@@ -24,6 +30,36 @@ public class View extends ActionSupport implements ServletResponseAware {
     public String execute() {
         String ret = "";
         JSONObject obj = new JSONObject();
+        JSONArray jsarray = new JSONArray();
+        try {
+            DataOpetate dataOpetate = new DataOpetate();
+            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            if (istoken) {//token正確
+                String hql = "from PlanEntity p where p.planId = " +
+                        "all(select planId from PerpleInPlanEntity pe where pe.account="+account+")" +
+                        " and p.returnTime != NULL";
+                List list = dataOpetate.SelectTb(hql);
+                //TODO person 不知道該怎麼存與傳
+                for (int i=0;i<list.size();i++){
+                    PlanEntity pe = (PlanEntity) list.get(i);
+                    JSONObject jsob = new JSONObject();
+                    jsob.put("title",pe.getTitle());
+                    jsob.put("info",pe.getInfo());
+                    jsob.put("time",pe.getTime());
+                    jsob.put("location",pe.getLocation());
+                    jsob.put("plan_id",pe.getPlanId());
+                    jsarray.put(jsob);
+                }
+                obj.put("status",1);
+                obj.put("planlist",jsarray);
+            }
+        }catch (Exception e){
+            try {
+                obj.put("status",0);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
         ret = obj.toString();
         PrintToHtml.PrintToHtml(response, ret);
         return null;

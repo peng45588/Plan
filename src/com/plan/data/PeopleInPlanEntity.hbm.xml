@@ -5,9 +5,17 @@
 <hibernate-mapping>
 
     <class name="com.plan.data.PeopleInPlanEntity" table="PeopleInPlan" schema="" catalog="Plan">
-        <id name="id" column="id"/>
-        <property name="account" column="account"/>
-        <property name="planId" column="planId"/>
-        <property name="time" column="time"/>
+        <id name="id">
+            <column name="id" sql-type="int" not-null="true"/>
+        </id>
+        <property name="account">
+            <column name="account" sql-type="varchar" length="45" not-null="true"/>
+        </property>
+        <property name="planId">
+            <column name="planId" sql-type="int" not-null="true"/>
+        </property>
+        <property name="returnTime">
+            <column name="returnTime" sql-type="bigint"/>
+        </property>
     </class>
 </hibernate-mapping>

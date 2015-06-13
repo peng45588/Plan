@@ -3,18 +3,18 @@ package com.plan.data;
 import javax.persistence.*;
 
 /**
- * Created by snow on 15-6-10.
+ * Created by snow on 15-6-13.
  */
 @Entity
 @Table(name = "TimeOfPlan", schema = "", catalog = "Plan")
 public class TimeOfPlanEntity {
     private int planId;
-    private int time;
+    private long time;
     private int number;
     private int id;
 
     @Basic
-    @Column(name = "planId")
+    @Column(name = "planId", nullable = false, insertable = true, updatable = true)
     public int getPlanId() {
         return planId;
     }
@@ -24,17 +24,17 @@ public class TimeOfPlanEntity {
     }
 
     @Basic
-    @Column(name = "time")
-    public int getTime() {
+    @Column(name = "time", nullable = false, insertable = true, updatable = true)
+    public long getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = time;
     }
 
     @Basic
-    @Column(name = "number")
+    @Column(name = "number", nullable = false, insertable = true, updatable = true)
     public int getNumber() {
         return number;
     }
@@ -44,7 +44,7 @@ public class TimeOfPlanEntity {
     }
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, insertable = true, updatable = true)
     public int getId() {
         return id;
     }
@@ -71,7 +71,7 @@ public class TimeOfPlanEntity {
     @Override
     public int hashCode() {
         int result = planId;
-        result = 31 * result + time;
+        result = 31 * result + (int) (time ^ (time >>> 32));
         result = 31 * result + number;
         result = 31 * result + id;
         return result;
