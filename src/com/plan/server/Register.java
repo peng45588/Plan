@@ -3,6 +3,7 @@ package com.plan.server;/**
  */
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.plan.data.FriendEntity;
 import com.plan.data.UserEntity;
 import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
@@ -39,11 +40,14 @@ public class Register extends ActionSupport implements ServletResponseAware {
         user.setNickname(nickname);
         user.setAvatag(avatagUrl);
         user.setPhone(phone);
-
+        FriendEntity fe = new FriendEntity();
+        fe.setFriendAccount(account);
+        fe.setUserAccount(account);
         JSONObject obj = new JSONObject();
         try {
             DataOpetate dataOpetate = new DataOpetate();
             dataOpetate.Save(user);
+            dataOpetate.Save(fe);
             obj.put("status",1);
         }catch (Exception e){
             try {

@@ -40,14 +40,15 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
             DataOpetate dataOpetate = new DataOpetate();
             boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
-                String hql = "from PeopleInPlanEntity pe where pe.planId=:para1";
-                List list = dataOpetate.SelectTb(hql,plan_id);
+                String hql = "from PeopleInPlanEntity pe where pe.planId=:para1 and pe.account=:para2";
+                List list = dataOpetate.SelectTb(hql,plan_id,account);
                 if (list.size() == 1) {
                     PeopleInPlanEntity pe = (PeopleInPlanEntity) list.get(0);
                     pe.setReturnTime(time);
-                    dataOpetate.Save(pe);
+                    dataOpetate.UpdataTb(pe);
                 }else {
                     obj.put("status",0);
+                    ret = obj.toString();
                     PrintToHtml.PrintToHtml(response, ret);
                     return null;
                 }
@@ -57,16 +58,16 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
                     LocationOfPlanEntity pe = (LocationOfPlanEntity) list.get(i);
                     if (location_list.contains("\""+pe.getLocation()+"\"")) {
                         pe.setNumber(pe.getNumber() + 1);
-                        dataOpetate.Save(pe);
+                        dataOpetate.UpdataTb(pe);
                     }
                 }
                 hql = "from TimeOfPlanEntity pe where pe.planId=:para1";
                 list = dataOpetate.SelectTb(hql,plan_id);
                 for (int i = 0; i < list.size(); i++) {
-                    TimeOfPlanEntity pe = (TimeOfPlanEntity) list.get(0);
-                    if (time_list.contains("\""+pe.getTime()+"\"")){
+                    TimeOfPlanEntity pe = (TimeOfPlanEntity) list.get(i);
+                    if (time_list.contains(pe.getTime()+",")||time_list.contains(pe.getTime()+"]")){
                         pe.setNumber(pe.getNumber()+1);
-                        dataOpetate.Save(pe);
+                        dataOpetate.UpdataTb(pe);
                     }
                 }
                 obj.put("status",1);

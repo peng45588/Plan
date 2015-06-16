@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class Start extends ActionSupport implements ServletResponseAware {
     private static final long serialVersionUID = 1L;
@@ -47,7 +48,16 @@ public class Start extends ActionSupport implements ServletResponseAware {
                 pe.setTitle(title);
                 pe.setDeadline(ddl);
                 pe.setInfo(info);
+                //TODO 不知如何得到自動增長的主鍵，先用多查詢一次的方法來做
                 dataOpetate.Save(pe);
+                List list = dataOpetate.SelectTb("from PlanEntity where title = :para1 and info = :para2",title,info);
+                if (list.size()==1)
+                    pe = (PlanEntity) list.get(0);
+                else{//title info 衝突
+                    obj.put("status",3);
+                    ret = obj.toString();
+                    PrintToHtml.PrintToHtml(response, ret);
+                }
                 System.err.println("id:" + pe.getPlanId());
                 //存time location perple 三個表
                 JSONArray jsarray = new JSONArray(time_list);

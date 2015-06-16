@@ -11,7 +11,7 @@ public class CheckToken {
 
     public static boolean CheckToken(DataOpetate dataOpetate, String account, String token) {
         try {
-            List it = dataOpetate.SelectTb("select user from UserEntity as user where user.account like " + account);
+            List it = dataOpetate.SelectTb("select user from UserEntity as user where user.account =:para1",account);
             if (it.size()==1) {
                 UserEntity user = (UserEntity) it.get(0);
                 if (user.getToken().equals(token)) {//判斷token是否正確

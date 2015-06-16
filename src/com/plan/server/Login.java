@@ -42,7 +42,7 @@ public class Login extends ActionSupport implements ServletResponseAware {
         JSONObject obj = new JSONObject();
         try {
             DataOpetate dataOpetate = new DataOpetate();
-            List it = dataOpetate.SelectTb("from UserEntity as user where user.account =:account",account);
+            List it = dataOpetate.SelectTb("from UserEntity as user where user.account =:para1",account);
             if (it.size()==1) {
                 UserEntity user = (UserEntity) it.get(0);
                 if (user.getPassword().equals(password_md5)) {//判斷密碼是否正確

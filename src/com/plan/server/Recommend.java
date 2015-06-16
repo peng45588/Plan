@@ -86,13 +86,11 @@ public class Recommend extends ActionSupport implements ServletResponseAware {
         this.token = token;
     }
 
-    public String getPhoneList() {
+    public String getPhone_list() {
         return phone_list;
     }
 
-    public void setPhoneList(String phone_list) {
+    public void setPhone_list(String phone_list) {
         this.phone_list = phone_list;
     }
-
-
 }

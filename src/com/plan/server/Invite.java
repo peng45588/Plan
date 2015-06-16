@@ -37,8 +37,8 @@ public class Invite extends ActionSupport implements ServletResponseAware {
             boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
                 String hql = "from PlanEntity p where p.planId = " +
-                        "all(select planId from PerpleInPlanEntity pe where pe.account=:para1)" +
-                        " and p.returnTime = NULL";
+                        "any(select planId from PeopleInPlanEntity pe where pe.account=:para1" +
+                        " and pe.returnTime is null)";
                 List list = dataOpetate.SelectTb(hql,account);
                 //TODO person 不知道該怎麼存與傳
                 for (int i = 0; i < list.size(); i++) {

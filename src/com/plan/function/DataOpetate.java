@@ -1,5 +1,6 @@
 package com.plan.function;
 
+import com.plan.data.PlanEntity;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
