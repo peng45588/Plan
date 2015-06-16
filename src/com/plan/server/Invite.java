@@ -28,6 +28,7 @@ public class Invite extends ActionSupport implements ServletResponseAware {
 
     //定义处理用户请求的execute方法
     public String execute() {
+        System.err.println("Invite:"+account+","+token);
         String ret = "";
         JSONObject obj = new JSONObject();
         JSONArray jsarray = new JSONArray();
@@ -52,6 +53,8 @@ public class Invite extends ActionSupport implements ServletResponseAware {
                 }
                 obj.put("status", 1);
                 obj.put("planlist", jsarray);
+            }else {
+                obj.put("status",2);
             }
         } catch (Exception e) {
             try {

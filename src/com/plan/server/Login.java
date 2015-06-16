@@ -25,16 +25,24 @@ public class Login extends ActionSupport implements ServletResponseAware {
         this.response = httpServletResponse;
     }
 
+    public String getPassword_md5() {
+        return password_md5;
+    }
+
+    public void setPassword_md5(String password_md5) {
+        this.password_md5 = password_md5;
+    }
+
     private String password_md5;
 
     //定义处理用户请求的execute方法
     public String execute() {
-        String ret = "account:" + account + ",";
-        System.err.println(ret);
+        System.err.println("Login:"+account+","+password_md5);
+        String ret = "";
         JSONObject obj = new JSONObject();
         try {
             DataOpetate dataOpetate = new DataOpetate();
-            List it = dataOpetate.SelectTb("select user from UserEntity as user where user.account like "+account);
+            List it = dataOpetate.SelectTb("from UserEntity as user where user.account =:account",account);
             if (it.size()==1) {
                 UserEntity user = (UserEntity) it.get(0);
                 if (user.getPassword().equals(password_md5)) {//判斷密碼是否正確
@@ -67,14 +75,6 @@ public class Login extends ActionSupport implements ServletResponseAware {
 
     public void setAccount(String account) {
         this.account = account;
-    }
-
-    public String getPassword_md5() {
-        return password_md5;
-    }
-
-    public void setPassword_md5(String password_md5) {
-        this.password_md5 = password_md5;
     }
 
 }

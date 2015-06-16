@@ -43,18 +43,28 @@ public class DataOpetate implements DataOperateimp {
      * @param hql hql語句:"select user from Test as user where user.name like:name";
      * @return
      */
-    public List SelectTb(String hql){
+    public List SelectTb(String hql,String account){
         List it = null;
         this.session = sf.openSession();
         this.session.beginTransaction();
         Query query = this.session.createQuery(hql);
-        //query.setString("account","%"+name+"%");
+        query.setString("account",account);
         it = query.list();
         this.session.getTransaction().commit();
         this.session.close();
         return it;
     }
-
+    public List SelectTb(String hql){
+        List it = null;
+        this.session = sf.openSession();
+        this.session.beginTransaction();
+        Query query = this.session.createQuery(hql);
+        //query.setString("account","%"+account+"%");
+        it = query.list();
+        this.session.getTransaction().commit();
+        this.session.close();
+        return it;
+    }
     /**
      * 更新表
      * @param o 更新的對象
@@ -66,6 +76,7 @@ public class DataOpetate implements DataOperateimp {
         this.session.getTransaction().commit();
         this.session.close();
     }
+
     //delete FriendEntity as fe where fe.userAccount=" + account;
     public void DeleteTb(String hql){
         this.session = sf.openSession();

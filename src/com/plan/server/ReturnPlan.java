@@ -33,6 +33,7 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
 
     //定义处理用户请求的execute方法
     public String execute() {
+        System.err.println("ReturnPlan:"+account+","+token+","+plan_id+","+time+","+location_list+","+time_list);
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
@@ -70,7 +71,7 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
                 }
                 obj.put("status",1);
             }else {
-                obj.put("status",0);
+                obj.put("status",2);
             }
         } catch (Exception e) {
             try {

@@ -17,6 +17,7 @@ public interface DataOperateimp {
     public Session getSession();
     public void Close();
     public void Save(Object o);
+    public List SelectTb(String hql,String account);
     public List SelectTb(String hql);
     public void UpdataTb(Object o);
     public void DeleteTb(String hql);

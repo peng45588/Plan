@@ -36,6 +36,7 @@ public class Start extends ActionSupport implements ServletResponseAware {
 
     //定义处理用户请求的execute方法
     public String execute() {
+        System.err.println("Start:"+account+","+token+","+title+","+info+","+ddl+","+time_list+","+location_list+","+people);
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
@@ -72,6 +73,8 @@ public class Start extends ActionSupport implements ServletResponseAware {
                 }
                 obj.put("status",1);
                 //for (int i=0;i<)
+            }else {
+                obj.put("status",2);
             }
         }catch (Exception e){
             try {

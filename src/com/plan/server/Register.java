@@ -6,6 +6,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.UserEntity;
 import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
+import com.plan.function.UploadPhoto;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,11 +31,13 @@ public class Register extends ActionSupport implements ServletResponseAware {
     //定义处理用户请求的execute方法
     public String execute() {
         String ret = "";
+        String avatagUrl = UploadPhoto.UploadPhoto(avatag, account);
+        System.err.println("Register:"+account+","+password_md5+","+nickname+","+phone+","+avatag+","+avatagUrl);
         UserEntity user = new UserEntity();
         user.setAccount(account);
         user.setPassword(password_md5);
         user.setNickname(nickname);
-        user.setAvatag(avatag);
+        user.setAvatag(avatagUrl);
         user.setPhone(phone);
 
         JSONObject obj = new JSONObject();

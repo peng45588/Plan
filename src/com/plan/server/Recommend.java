@@ -29,6 +29,7 @@ public class Recommend extends ActionSupport implements ServletResponseAware {
 
     //定义处理用户请求的execute方法
     public String execute() {
+        System.err.println("Recommend:"+account+","+token+","+phone_list);
         String ret = "";
         JSONObject obj = new JSONObject();
         JSONArray jsarray = new JSONArray();
@@ -52,6 +53,8 @@ public class Recommend extends ActionSupport implements ServletResponseAware {
                 }
                 obj.put("status", 1);
                 obj.put("person", jsarray);
+            }else {
+                obj.put("status",2);
             }
         } catch (Exception e) {
             try {

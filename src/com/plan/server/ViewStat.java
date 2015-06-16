@@ -32,6 +32,7 @@ public class ViewStat extends ActionSupport implements ServletResponseAware {
 
     //定义处理用户请求的execute方法
     public String execute() {
+        System.err.println("ViewStat:"+account+","+token+","+time+","+plan_id);
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
@@ -69,6 +70,8 @@ public class ViewStat extends ActionSupport implements ServletResponseAware {
                 }else{
                     obj.put("status",0);
                 }
+            }else {
+                obj.put("status",2);
             }
         }catch (Exception e){
             try {
