@@ -38,8 +38,8 @@ public class GetFriendList extends ActionSupport implements ServletResponseAware
             boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
                 String hql = "from UserEntity ue where ue.account=" +
-                        "all(select friendAccount from FriendEntity fe where fe.userAccount="+account+")";
-                List list = dataOpetate.SelectTb(hql);
+                        "all(select friendAccount from FriendEntity fe where fe.userAccount=:para1)";
+                List list = dataOpetate.SelectTb(hql,account);
                 for (int i=0;i<list.size();i++){
                     UserEntity fe = (UserEntity) list.get(i);
                     JSONObject jsob = new JSONObject();

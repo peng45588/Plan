@@ -40,8 +40,8 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
             DataOpetate dataOpetate = new DataOpetate();
             boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
-                String hql = "from PeopleInPlanEntity pe where pe.planId=" + plan_id;
-                List list = dataOpetate.SelectTb(hql);
+                String hql = "from PeopleInPlanEntity pe where pe.planId=:para1";
+                List list = dataOpetate.SelectTb(hql,plan_id);
                 if (list.size() == 1) {
                     PeopleInPlanEntity pe = (PeopleInPlanEntity) list.get(0);
                     pe.setReturnTime(time);
@@ -51,8 +51,8 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
                     PrintToHtml.PrintToHtml(response, ret);
                     return null;
                 }
-                hql = "from LocationOfPlanEntity pe where pe.planId=" + plan_id;
-                list = dataOpetate.SelectTb(hql);
+                hql = "from LocationOfPlanEntity pe where pe.planId=:para1";
+                list = dataOpetate.SelectTb(hql,plan_id);
                 for (int i = 0; i < list.size(); i++) {
                     LocationOfPlanEntity pe = (LocationOfPlanEntity) list.get(i);
                     if (location_list.contains("\""+pe.getLocation()+"\"")) {
@@ -60,8 +60,8 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
                         dataOpetate.Save(pe);
                     }
                 }
-                hql = "from TimeOfPlanEntity pe where pe.planId=" + plan_id;
-                list = dataOpetate.SelectTb(hql);
+                hql = "from TimeOfPlanEntity pe where pe.planId=:para1";
+                list = dataOpetate.SelectTb(hql,plan_id);
                 for (int i = 0; i < list.size(); i++) {
                     TimeOfPlanEntity pe = (TimeOfPlanEntity) list.get(0);
                     if (time_list.contains("\""+pe.getTime()+"\"")){

@@ -38,8 +38,8 @@ public class ConfirmPlan extends ActionSupport implements ServletResponseAware {
             DataOpetate dataOpetate = new DataOpetate();
             boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
-                String hql = "from PlanEntity pe where pe.planId="+plan_id;
-                List list = dataOpetate.SelectTb(hql);
+                String hql = "from PlanEntity pe where pe.planId=:para1";
+                List list = dataOpetate.SelectTb(hql,plan_id);
                 if (list.size()==1){
                     PlanEntity pe = (PlanEntity) list.get(0);
                     if (pe.getTime()==null&&pe.getLocation()==null){

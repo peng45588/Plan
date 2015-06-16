@@ -43,12 +43,24 @@ public class DataOpetate implements DataOperateimp {
      * @param hql hql語句:"select user from Test as user where user.name like:name";
      * @return
      */
-    public List SelectTb(String hql,String account){
+    public List SelectTb(String hql,String para1){
         List it = null;
         this.session = sf.openSession();
         this.session.beginTransaction();
         Query query = this.session.createQuery(hql);
-        query.setString("account",account);
+        query.setString("para1",para1);
+        it = query.list();
+        this.session.getTransaction().commit();
+        this.session.close();
+        return it;
+    }
+    public List SelectTb(String hql,String para1,String para2){
+        List it = null;
+        this.session = sf.openSession();
+        this.session.beginTransaction();
+        Query query = this.session.createQuery(hql);
+        query.setString("para1",para1);
+        query.setString("para2",para2);
         it = query.list();
         this.session.getTransaction().commit();
         this.session.close();

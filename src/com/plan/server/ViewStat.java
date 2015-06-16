@@ -39,14 +39,14 @@ public class ViewStat extends ActionSupport implements ServletResponseAware {
             DataOpetate dataOpetate = new DataOpetate();
             boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
-                String hql = "from PlanEntity pe where pe.planId="+plan_id;
-                List list = dataOpetate.SelectTb(hql);
+                String hql = "from PlanEntity pe where pe.planId=:para1";
+                List list = dataOpetate.SelectTb(hql,plan_id);
                 if (list.size()==1){
                     PlanEntity pe = (PlanEntity) list.get(0);
                     obj.put("title",pe.getTitle());
                     obj.put("info",pe.getInfo());
-                    hql = "from TimeOfPlanEntity te where te.planId="+plan_id;
-                    list = dataOpetate.SelectTb(hql);
+                    hql = "from TimeOfPlanEntity te where te.planId=:para1";
+                    list = dataOpetate.SelectTb(hql,plan_id);
                     JSONArray jsarray = new JSONArray();
                     for (int i=0;i<list.size();i++){
                         TimeOfPlanEntity tope = (TimeOfPlanEntity) list.get(i);
@@ -56,8 +56,8 @@ public class ViewStat extends ActionSupport implements ServletResponseAware {
                         jsarray.put(jsob);
                     }
                     obj.put("time_list",jsarray);
-                    hql = "from LocationOfPlanEntity le where le.planId="+plan_id;
-                    list = dataOpetate.SelectTb(hql);
+                    hql = "from LocationOfPlanEntity le where le.planId=:para1";
+                    list = dataOpetate.SelectTb(hql,plan_id);
                     jsarray = new JSONArray();
                     for (int i=0;i<list.size();i++){
                         LocationOfPlanEntity lope = (LocationOfPlanEntity) list.get(i);
@@ -67,6 +67,7 @@ public class ViewStat extends ActionSupport implements ServletResponseAware {
                         jsarray.put(jsob);
                     }
                     obj.put("location_list",jsarray);
+                    obj.put("status",1);
                 }else{
                     obj.put("status",0);
                 }
