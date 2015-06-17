@@ -51,6 +51,7 @@ public class UploadPhoto {
         if (imgStr==null)
             return false;
         try {
+            //base64傳輸時+都會變成" "，所以需要做些處理
             String imgStr2 = imgStr.replaceAll(" ","+");
             byte[] b = new BASE64Decoder().decodeBuffer(imgStr2);
             for (int i=0;i<b.length;i++){
