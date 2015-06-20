@@ -17,6 +17,7 @@
           <element id="library" level="project" name="com.springsource.net.sf.cglib-sources-2.2.0" />
         </element>
       </element>
+      <element id="library" level="project" name="javax.annotation" />
     </root>
   </artifact>
 </component>

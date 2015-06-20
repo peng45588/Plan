@@ -18,6 +18,8 @@
                 <action name="confirm_plan" class="com.plan.server.ConfirmPlan"></action>
                 <action name="return_plan" class="com.plan.server.ReturnPlan"></action>
                 <action name="get_friendlist" class="com.plan.server.GetFriendList"></action>
+                <action name="search_user" class="com.plan.server.SearchUser"></action>
+                <action name="user_info" class="com.plan.server.UserInfo"></action>
 
         </package>
 </struts>
