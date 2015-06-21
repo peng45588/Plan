@@ -26,8 +26,6 @@ public class SearchUser extends ActionSupport implements ServletResponseAware {
 
     private String account;
     private String token;
-
-
     private String nickname;
 
     //定义处理用户请求的execute方法
@@ -36,10 +34,10 @@ public class SearchUser extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
-            boolean istoken = Config.CheckToken(dataOpetate, account, token);
+            DataOperate dataop = new DataOperate();
+            boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {//token正確
-                List it = dataOpetate.SelectTb("from UserEntity as user where user.nickname like '%"+ nickname +"%'");
+                List it = dataop.SelectTb("from UserEntity as user where user.nickname like '%"+ nickname +"%'");
 
                 JSONArray jsonArray = new JSONArray();
                 for (int i = 0; i < it.size(); i++) {

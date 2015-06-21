@@ -23,5 +23,11 @@
         <property name="deadline">
             <column name="deadline" sql-type="bigint" not-null="true"/>
         </property>
+        <property name="locationLat">
+            <column name="locationLat" sql-type="double" precision="22"/>
+        </property>
+        <property name="locationLon">
+            <column name="locationLon" sql-type="double" precision="22"/>
+        </property>
     </class>
 </hibernate-mapping>

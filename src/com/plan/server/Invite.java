@@ -4,8 +4,9 @@ package com.plan.server;/**
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.PlanEntity;
+import com.plan.data.UserEntity;
 import com.plan.function.Config;
-import com.plan.function.DataOpetate;
+import com.plan.function.DataOperate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONArray;
@@ -33,22 +34,43 @@ public class Invite extends ActionSupport implements ServletResponseAware {
         JSONObject obj = new JSONObject();
         JSONArray jsarray = new JSONArray();
         try {
-            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
-            boolean istoken = Config.CheckToken(dataOpetate, account, token);
+            DataOperate dataop = new DataOperate();
+            boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {//token正確
                 String hql = "from PlanEntity p where p.planId = " +
                         "any(select planId from PeopleInPlanEntity pe where pe.account=:para1" +
                         " and pe.returnTime is null)";
-                List list = dataOpetate.SelectTb(hql,account);
-                //TODO person 不知道該怎麼存與傳
+                List list = dataop.SelectTb(hql,account);
+                //person 不知道該怎麼存與傳
                 for (int i = 0; i < list.size(); i++) {
                     PlanEntity pe = (PlanEntity) list.get(i);
+
+                    JSONObject location = new JSONObject();
+                    location.put("location",pe.getLocation());
+                    location.put("lat",pe.getLocationLat());
+                    location.put("lon",pe.getLocationLon());
+
                     JSONObject jsob = new JSONObject();
                     jsob.put("title", pe.getTitle());
                     jsob.put("info", pe.getInfo());
                     jsob.put("time", pe.getTime());
-                    jsob.put("location", pe.getLocation());
+                    jsob.put("location", location);
                     jsob.put("plan_id", pe.getPlanId());
+                    //查询person
+                    hql = "from UserEntity user where user.account = " +
+                            "(select account from PeopleInPlanEntity as pp where pp.planId=:para1" +
+                            " and pp.returnTime is not null)";
+                    List listPerson = dataop.SelectTb(hql,pe.getPlanId());
+                    JSONArray jsPerson = new JSONArray();
+                    for (int j=0;j<listPerson.size();j++){
+                        UserEntity user = (UserEntity) listPerson.get(j);
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("account",user.getAccount());
+                        jsonObject.put("nickname",user.getNickname());
+                        jsonObject.put("avatag",user.getAvatag());
+                        jsPerson.put(jsonObject);
+                    }
+                    jsob.put("person",jsPerson);
                     jsarray.put(jsob);
                 }
                 obj.put("status", 1);

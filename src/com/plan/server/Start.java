@@ -8,7 +8,7 @@ import com.plan.data.PeopleInPlanEntity;
 import com.plan.data.PlanEntity;
 import com.plan.data.TimeOfPlanEntity;
 import com.plan.function.Config;
-import com.plan.function.DataOpetate;
+import com.plan.function.DataOperate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONArray;
@@ -41,45 +41,48 @@ public class Start extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
-            boolean istoken = Config.CheckToken(dataOpetate, account, token);
+            DataOperate dataop = new DataOperate();
+            boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {//token正確
                 PlanEntity pe = new PlanEntity();
                 pe.setTitle(title);
                 pe.setDeadline(ddl);
                 pe.setInfo(info);
-                //TODO 不知如何得到自動增長的主鍵，先用多查詢一次的方法來做
-                dataOpetate.Save(pe);
-                List list = dataOpetate.SelectTb("from PlanEntity where title = :para1 and info = :para2",title,info);
+
+                dataop.Save(pe);
+                List list = dataop.SelectTb("from PlanEntity where title = :para1 and info = :para2",title,info);
                 if (list.size()==1)
                     pe = (PlanEntity) list.get(0);
                 else{//title info 衝突
-                    obj.put("status",3);
+                    obj.put("status",0);
                     ret = obj.toString();
                     PrintToHtml.PrintToHtml(response, ret);
+                    return null;
                 }
-                System.err.println("id:" + pe.getPlanId());
                 //存time location perple 三個表
                 JSONArray jsarray = new JSONArray(time_list);
                 for (int i = 0;i<jsarray.length();i++){
                     TimeOfPlanEntity tope = new TimeOfPlanEntity();
                     tope.setPlanId(pe.getPlanId());
                     tope.setTime(jsarray.getLong(i));
-                    dataOpetate.Save(tope);
+                    dataop.Save(tope);
                 }
                 jsarray = new JSONArray(location_list);
                 for (int i = 0;i<jsarray.length();i++){
+                    JSONObject jsonObject = jsarray.getJSONObject(i);
                     LocationOfPlanEntity lope = new LocationOfPlanEntity();
                     lope.setPlanId(pe.getPlanId());
-                    lope.setLocation(jsarray.getString(i));
-                    dataOpetate.Save(lope);
+                    lope.setLocation(jsonObject.getString("location"));
+                    lope.setLat(jsonObject.getDouble("lat"));
+                    lope.setLon(jsonObject.getDouble("lon"));
+                    dataop.Save(lope);
                 }
                 jsarray = new JSONArray(people);
                 for (int i = 0;i<jsarray.length();i++){
                     PeopleInPlanEntity pipe = new PeopleInPlanEntity();
                     pipe.setPlanId(pe.getPlanId());
                     pipe.setAccount(jsarray.getString(i));
-                    dataOpetate.Save(pipe);
+                    dataop.Save(pipe);
                 }
                 obj.put("status",1);
                 //for (int i=0;i<)

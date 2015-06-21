@@ -23,5 +23,11 @@
         <property name="token">
             <column name="token" sql-type="varchar" length="45"/>
         </property>
+        <property name="lat">
+            <column name="lat" sql-type="double" precision="22"/>
+        </property>
+        <property name="lon">
+            <column name="lon" sql-type="double" precision="22"/>
+        </property>
     </class>
 </hibernate-mapping>

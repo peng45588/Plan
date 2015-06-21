@@ -5,7 +5,7 @@ package com.plan.server;/**
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.FriendEntity;
 import com.plan.function.Config;
-import com.plan.function.DataOpetate;
+import com.plan.function.DataOperate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONException;
@@ -19,7 +19,7 @@ public class DeleteFriend extends ActionSupport implements ServletResponseAware 
     private String account;
     private String token;
     private String friend_account;
-
+    
     @Override
     public void setServletResponse(HttpServletResponse httpServletResponse) {
         this.response = httpServletResponse;
@@ -31,16 +31,16 @@ public class DeleteFriend extends ActionSupport implements ServletResponseAware 
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
-            boolean istoken = Config.CheckToken(dataOpetate, account, token);
+            DataOperate dataop = new DataOperate();
+            boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {
                 FriendEntity fe = new FriendEntity();
                 fe.setUserAccount(account);
                 fe.setFriendAccount(friend_account);
-                dataOpetate.Delete(fe);
+                dataop.Delete(fe);
                 fe.setUserAccount(friend_account);
                 fe.setFriendAccount(account);
-                dataOpetate.Delete(fe);
+                dataop.Delete(fe);
                 obj.put("status", 1);
             }else {
                 obj.put("status",2);

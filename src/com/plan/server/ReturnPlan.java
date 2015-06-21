@@ -7,7 +7,7 @@ import com.plan.data.LocationOfPlanEntity;
 import com.plan.data.PeopleInPlanEntity;
 import com.plan.data.TimeOfPlanEntity;
 import com.plan.function.Config;
-import com.plan.function.DataOpetate;
+import com.plan.function.DataOperate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONException;
@@ -37,15 +37,15 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
-            boolean istoken = Config.CheckToken(dataOpetate, account, token);
+            DataOperate dataop = new DataOperate();
+            boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {//token正確
                 String hql = "from PeopleInPlanEntity pe where pe.planId=:para1 and pe.account=:para2";
-                List list = dataOpetate.SelectTb(hql,plan_id,account);
+                List list = dataop.SelectTb(hql,plan_id,account);
                 if (list.size() == 1) {
                     PeopleInPlanEntity pe = (PeopleInPlanEntity) list.get(0);
                     pe.setReturnTime(time);
-                    dataOpetate.UpdataTb(pe);
+                    dataop.UpdataTb(pe);
                 }else {
                     obj.put("status",0);
                     ret = obj.toString();
@@ -53,21 +53,21 @@ public class ReturnPlan extends ActionSupport implements ServletResponseAware {
                     return null;
                 }
                 hql = "from LocationOfPlanEntity pe where pe.planId=:para1";
-                list = dataOpetate.SelectTb(hql,plan_id);
+                list = dataop.SelectTb(hql,plan_id);
                 for (int i = 0; i < list.size(); i++) {
                     LocationOfPlanEntity pe = (LocationOfPlanEntity) list.get(i);
                     if (location_list.contains("\""+pe.getLocation()+"\"")) {
                         pe.setNumber(pe.getNumber() + 1);
-                        dataOpetate.UpdataTb(pe);
+                        dataop.UpdataTb(pe);
                     }
                 }
                 hql = "from TimeOfPlanEntity pe where pe.planId=:para1";
-                list = dataOpetate.SelectTb(hql,plan_id);
+                list = dataop.SelectTb(hql,plan_id);
                 for (int i = 0; i < list.size(); i++) {
                     TimeOfPlanEntity pe = (TimeOfPlanEntity) list.get(i);
                     if (time_list.contains(pe.getTime()+",")||time_list.contains(pe.getTime()+"]")){
                         pe.setNumber(pe.getNumber()+1);
-                        dataOpetate.UpdataTb(pe);
+                        dataop.UpdataTb(pe);
                     }
                 }
                 obj.put("status",1);

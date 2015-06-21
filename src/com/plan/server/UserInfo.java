@@ -33,10 +33,10 @@ public class UserInfo extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
-            boolean istoken = Config.CheckToken(dataOpetate, account, token);
+            DataOperate dataop = new DataOperate();
+            boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {//token正確
-                List it = dataOpetate.SelectTb("from UserEntity as user where user.account =:para1", user_account);
+                List it = dataop.SelectTb("from UserEntity as user where user.account =:para1", user_account);
                 if (it.size() == 1) {
                     UserEntity user = (UserEntity) it.get(0);
                     obj.put("status", 1);

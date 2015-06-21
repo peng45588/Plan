@@ -37,8 +37,11 @@
         <fileset id="web dispatcher servlet context" name="MVC dispatcher servlet context" removed="true">
           <file>file://$MODULE_DIR$/web/WEB-INF/dispatcher-servlet.xml</file>
         </fileset>
-        <fileset id="fileset" name="Spring Application" removed="false">
-          <file>file://$MODULE_DIR$/src/spring-config.xml</file>
+        <fileset id="fileset" name="Spring Application Context (2)" removed="false">
+          <file>file://$MODULE_DIR$/web/WEB-INF/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/web/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/web/WEB-INF/dispatcher-servlet.xml</file>
+          <file>file://$MODULE_DIR$/web/WEB-INF/spring-config.xml</file>
         </fileset>
       </configuration>
     </facet>

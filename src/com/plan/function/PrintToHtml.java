@@ -11,7 +11,7 @@ import java.io.PrintWriter;
  */
 public class PrintToHtml extends ServletRedirectResult {
 
-    public static String PrintToHtml(HttpServletResponse response, String ret) {
+    public static void PrintToHtml(HttpServletResponse response, String ret) {
 
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html;chatset=utf-8");
@@ -30,6 +30,5 @@ public class PrintToHtml extends ServletRedirectResult {
 
         pw.flush();
         pw.close();
-        return null;
     }
 }

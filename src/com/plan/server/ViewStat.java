@@ -7,7 +7,7 @@ import com.plan.data.LocationOfPlanEntity;
 import com.plan.data.PlanEntity;
 import com.plan.data.TimeOfPlanEntity;
 import com.plan.function.Config;
-import com.plan.function.DataOpetate;
+import com.plan.function.DataOperate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONArray;
@@ -36,17 +36,17 @@ public class ViewStat extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
-            boolean istoken = Config.CheckToken(dataOpetate, account, token);
+            DataOperate dataop = new DataOperate();
+            boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {//token正確
                 String hql = "from PlanEntity pe where pe.planId=:para1";
-                List list = dataOpetate.SelectTb(hql,plan_id);
+                List list = dataop.SelectTb(hql,plan_id);
                 if (list.size()==1){
                     PlanEntity pe = (PlanEntity) list.get(0);
                     obj.put("title",pe.getTitle());
                     obj.put("info",pe.getInfo());
                     hql = "from TimeOfPlanEntity te where te.planId=:para1";
-                    list = dataOpetate.SelectTb(hql,plan_id);
+                    list = dataop.SelectTb(hql,plan_id);
                     JSONArray jsarray = new JSONArray();
                     for (int i=0;i<list.size();i++){
                         TimeOfPlanEntity tope = (TimeOfPlanEntity) list.get(i);
@@ -57,13 +57,15 @@ public class ViewStat extends ActionSupport implements ServletResponseAware {
                     }
                     obj.put("time_list",jsarray);
                     hql = "from LocationOfPlanEntity le where le.planId=:para1";
-                    list = dataOpetate.SelectTb(hql,plan_id);
+                    list = dataop.SelectTb(hql,plan_id);
                     jsarray = new JSONArray();
                     for (int i=0;i<list.size();i++){
                         LocationOfPlanEntity lope = (LocationOfPlanEntity) list.get(i);
                         JSONObject jsob = new JSONObject();
                         jsob.put("location",lope.getLocation());
                         jsob.put("num",lope.getNumber());
+                        jsob.put("lat",lope.getLat());
+                        jsob.put("lon",lope.getLon());
                         jsarray.put(jsob);
                     }
                     obj.put("location_list",jsarray);

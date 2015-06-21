@@ -1,8 +1,6 @@
 package com.plan.function;
 
 import com.plan.data.UserEntity;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.security.MessageDigest;
 import java.util.List;
@@ -12,19 +10,10 @@ import java.util.List;
  */
 public class Config {
 
-
-    static BeanFactory factory = null;
-
-    //获得beanfactory的单例
-    public static BeanFactory getInstance(){
-        if(factory==null)
-            factory = new ClassPathXmlApplicationContext("spring-config.xml");
-        return factory;
-    }
     //check token
-    public static boolean CheckToken(DataOpetate dataOpetate, String account, String token) {
+    public static boolean CheckToken(DataOperate dataop, String account, String token) {
         try {
-            List it = dataOpetate.SelectTb("select user from UserEntity as user where user.account =:para1",account);
+            List it = dataop.SelectTb("select user from UserEntity as user where user.account =:para1",account);
             if (it.size()==1) {
                 UserEntity user = (UserEntity) it.get(0);
                 if (user.getToken().equals(token)) {//判斷token是否正確

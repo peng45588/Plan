@@ -20,6 +20,10 @@
                 <action name="get_friendlist" class="com.plan.server.GetFriendList"></action>
                 <action name="search_user" class="com.plan.server.SearchUser"></action>
                 <action name="user_info" class="com.plan.server.UserInfo"></action>
+                <action name="set_position" class="com.plan.server.SetPosition"></action>
+                <action name="get_position" class="com.plan.server.GetPosition"></action>
+                <action name="select_position" class="com.plan.server.SelectPosition"></action>
+                <action name="get_plan_location" class="com.plan.server.GetPlanLocation"></action>
 
         </package>
 </struts>

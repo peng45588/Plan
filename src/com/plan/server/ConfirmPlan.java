@@ -5,7 +5,7 @@ package com.plan.server;/**
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.PlanEntity;
 import com.plan.function.Config;
-import com.plan.function.DataOpetate;
+import com.plan.function.DataOperate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONException;
@@ -35,17 +35,20 @@ public class ConfirmPlan extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
-            boolean istoken = Config.CheckToken(dataOpetate, account, token);
+            DataOperate dataop = new DataOperate();
+            boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {//token正確
                 String hql = "from PlanEntity pe where pe.planId=:para1";
-                List list = dataOpetate.SelectTb(hql,plan_id);
+                List list = dataop.SelectTb(hql,plan_id);
                 if (list.size()==1){
                     PlanEntity pe = (PlanEntity) list.get(0);
                     if (pe.getTime()==null&&pe.getLocation()==null){
+                        JSONObject jsonObject = new JSONObject(location);
                         pe.setTime(time);
-                        pe.setLocation(location);
-                        dataOpetate.UpdataTb(pe);
+                        pe.setLocation(jsonObject.getString("location"));
+                        pe.setLocationLat(jsonObject.getDouble("lat"));
+                        pe.setLocationLon(jsonObject.getDouble("lon"));
+                        dataop.UpdataTb(pe);
                         obj.put("status",1);
                     }else {
                         obj.put("status",0);

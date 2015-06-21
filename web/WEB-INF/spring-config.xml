@@ -5,7 +5,7 @@
 
 
 
-    <bean id="dataop" class="com.plan.function.DataOperate"></bean>
+       <bean id="dataop" class="com.plan.function.DataOperate"></bean>
 
 
 </beans>

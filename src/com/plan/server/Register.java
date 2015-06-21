@@ -5,8 +5,7 @@ package com.plan.server;/**
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.FriendEntity;
 import com.plan.data.UserEntity;
-import com.plan.function.Config;
-import com.plan.function.DataOpetate;
+import com.plan.function.DataOperate;
 import com.plan.function.PrintToHtml;
 import com.plan.function.UploadPhoto;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -25,6 +24,7 @@ public class Register extends ActionSupport implements ServletResponseAware {
     private String phone;
     private String avatag;
 
+
     @Override
     public void setServletResponse(HttpServletResponse httpServletResponse) {
         this.response = httpServletResponse;
@@ -34,7 +34,7 @@ public class Register extends ActionSupport implements ServletResponseAware {
     public String execute() {
         String ret = "";
         String avatagUrl = UploadPhoto.UploadPhoto(avatag, account);
-        System.err.println("Register:"+account+","+password_md5+","+nickname+","+phone+","+avatag+","+avatagUrl);
+        System.err.println("Register:" + account + "," + password_md5 + "," + nickname + "," + phone + "," + avatag + "," + avatagUrl);
         UserEntity user = new UserEntity();
         user.setAccount(account);
         user.setPassword(password_md5);
@@ -46,14 +46,14 @@ public class Register extends ActionSupport implements ServletResponseAware {
         fe.setUserAccount(account);
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
-            dataOpetate.Save(user);
-            dataOpetate.Save(fe);
-            obj.put("status",1);
-        }catch (Exception e){
+            DataOperate dataop = new DataOperate();
+            dataop.Save(user);
+            dataop.Save(fe);
+            obj.put("status", 1);
+        } catch (Exception e) {
             try {
-                System.err.println(e+"\nshfe");
-                obj.put("status",0);
+                System.err.println(e + "\nshfe");
+                obj.put("status", 0);
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }

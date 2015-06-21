@@ -17,5 +17,11 @@
         <property name="number">
             <column name="number" sql-type="int" not-null="true"/>
         </property>
+        <property name="lat">
+            <column name="lat" sql-type="double" precision="22" not-null="true"/>
+        </property>
+        <property name="lon">
+            <column name="lon" sql-type="double" precision="22" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>

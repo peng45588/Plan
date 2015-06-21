@@ -3,7 +3,7 @@ package com.plan.data;
 import javax.persistence.*;
 
 /**
- * Created by snow on 15-6-13.
+ * Created by snow on 15-6-21.
  */
 @Entity
 @Table(name = "Plan", schema = "", catalog = "Plan")
@@ -14,6 +14,8 @@ public class PlanEntity {
     private String location;
     private String info;
     private long deadline;
+    private Double locationLat;
+    private Double locationLon;
 
     @Basic
     @Column(name = "title", nullable = false, insertable = true, updatable = true, length = 45)
@@ -75,6 +77,26 @@ public class PlanEntity {
         this.deadline = deadline;
     }
 
+    @Basic
+    @Column(name = "locationLat", nullable = true, insertable = true, updatable = true, precision = 0)
+    public Double getLocationLat() {
+        return locationLat;
+    }
+
+    public void setLocationLat(Double locationLat) {
+        this.locationLat = locationLat;
+    }
+
+    @Basic
+    @Column(name = "locationLon", nullable = true, insertable = true, updatable = true, precision = 0)
+    public Double getLocationLon() {
+        return locationLon;
+    }
+
+    public void setLocationLon(Double locationLon) {
+        this.locationLon = locationLon;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,6 +110,8 @@ public class PlanEntity {
         if (time != null ? !time.equals(that.time) : that.time != null) return false;
         if (location != null ? !location.equals(that.location) : that.location != null) return false;
         if (info != null ? !info.equals(that.info) : that.info != null) return false;
+        if (locationLat != null ? !locationLat.equals(that.locationLat) : that.locationLat != null) return false;
+        if (locationLon != null ? !locationLon.equals(that.locationLon) : that.locationLon != null) return false;
 
         return true;
     }
@@ -100,6 +124,8 @@ public class PlanEntity {
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (info != null ? info.hashCode() : 0);
         result = 31 * result + (int) (deadline ^ (deadline >>> 32));
+        result = 31 * result + (locationLat != null ? locationLat.hashCode() : 0);
+        result = 31 * result + (locationLon != null ? locationLon.hashCode() : 0);
         return result;
     }
 }
