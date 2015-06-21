@@ -4,7 +4,7 @@ package com.plan.server;/**
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.UserEntity;
-import com.plan.function.CheckToken;
+import com.plan.function.Config;
 import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -34,9 +34,9 @@ public class Recommend extends ActionSupport implements ServletResponseAware {
         JSONObject obj = new JSONObject();
         JSONArray jsarray = new JSONArray();
         try {
-            DataOpetate dataOpetate = new DataOpetate();
+            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
             List it = dataOpetate.SelectTb("from UserEntity");
-            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            boolean istoken = Config.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
                 //List<UserEntity> list = new ArrayList<>();
                 for (int i = 0; i < it.size(); i++) {

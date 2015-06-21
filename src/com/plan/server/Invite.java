@@ -4,7 +4,7 @@ package com.plan.server;/**
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.PlanEntity;
-import com.plan.function.CheckToken;
+import com.plan.function.Config;
 import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -33,8 +33,8 @@ public class Invite extends ActionSupport implements ServletResponseAware {
         JSONObject obj = new JSONObject();
         JSONArray jsarray = new JSONArray();
         try {
-            DataOpetate dataOpetate = new DataOpetate();
-            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
+            boolean istoken = Config.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
                 String hql = "from PlanEntity p where p.planId = " +
                         "any(select planId from PeopleInPlanEntity pe where pe.account=:para1" +

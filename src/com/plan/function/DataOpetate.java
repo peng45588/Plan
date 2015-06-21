@@ -5,6 +5,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,30 +15,43 @@ import java.util.Objects;
 /**
  * Created by snow on 15-6-10.
  */
-public class DataOpetate implements DataOperateimp {
-    private static SessionFactory sf;
+public class DataOpetate {
+    private static SessionFactory sf = null;
     Session session ;
-    static{
-        Configuration config = new Configuration();
-        sf = config.configure().buildSessionFactory();
+    static Configuration config;
+    public DataOpetate(){getInstance();
     }
-    public Session getSession(){
+    public static SessionFactory getInstance(){
+        if (sf==null) {
+            config = new Configuration();
+            sf = config.configure().buildSessionFactory();
+        }
+        return sf;
+    }
+
+    Session getSession(){
         return session;
     }
-    public void Close(){
+    void Close(){
         this.sf.close();
     }
 
+    void opBegin(){
+        this.session = sf.openSession();
+        this.session.beginTransaction();
+    }
+    void opEnd(){
+        this.session.getTransaction().commit();
+        this.session.close();
+    }
     /**
      * 插入
      * @param o 插入的對象
      */
     public void Save(Object o){
-        this.session = sf.openSession();
-        this.session.beginTransaction();
+        opBegin();
         this.session.save(o);
-        this.session.getTransaction().commit();
-        this.session.close();
+        opEnd();
     }
 
     /**
@@ -45,37 +60,30 @@ public class DataOpetate implements DataOperateimp {
      * @return
      */
     public List SelectTb(String hql,String para1){
-        List it = null;
-        this.session = sf.openSession();
-        this.session.beginTransaction();
+        opBegin();
+        List it;
         Query query = this.session.createQuery(hql);
         query.setString("para1",para1);
         it = query.list();
-        this.session.getTransaction().commit();
-        this.session.close();
+        opEnd();
         return it;
     }
     public List SelectTb(String hql,String para1,String para2){
-        List it = null;
-        this.session = sf.openSession();
-        this.session.beginTransaction();
+        opBegin();
+        List it;
         Query query = this.session.createQuery(hql);
         query.setString("para1",para1);
         query.setString("para2",para2);
         it = query.list();
-        this.session.getTransaction().commit();
-        this.session.close();
+        opEnd();
         return it;
     }
     public List SelectTb(String hql){
-        List it = null;
-        this.session = sf.openSession();
-        this.session.beginTransaction();
+        opBegin();
+        List it;
         Query query = this.session.createQuery(hql);
-        //query.setString("account","%"+account+"%");
         it = query.list();
-        this.session.getTransaction().commit();
-        this.session.close();
+        opEnd();
         return it;
     }
     /**
@@ -83,26 +91,20 @@ public class DataOpetate implements DataOperateimp {
      * @param o 更新的對象
      */
     public void UpdataTb(Object o){
-        this.session = sf.openSession();
-        this.session.beginTransaction();
+        opBegin();
         this.session.update(o);
-        this.session.getTransaction().commit();
-        this.session.close();
+        opEnd();
     }
 
     //delete FriendEntity as fe where fe.userAccount=" + account;
     public void DeleteTb(String hql){
-        this.session = sf.openSession();
-        this.session.beginTransaction();
+        opBegin();
         this.session.createQuery(hql).executeUpdate();
-        this.session.getTransaction().commit();
-        this.session.close();
+        opEnd();
     }
     public void Delete(Object o){
-        this.session = sf.openSession();
-        this.session.beginTransaction();
+        opBegin();
         this.session.delete(o);
-        this.session.getTransaction().commit();
-        this.session.close();
+        opEnd();
     }
 }

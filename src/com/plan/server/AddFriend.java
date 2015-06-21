@@ -4,7 +4,7 @@ package com.plan.server;/**
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.FriendEntity;
-import com.plan.function.CheckToken;
+import com.plan.function.Config;
 import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -31,8 +31,8 @@ public class AddFriend extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try{
-            DataOpetate dataOpetate = new DataOpetate();
-            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
+            boolean istoken = Config.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
                 FriendEntity fe = new FriendEntity();
                 fe.setUserAccount(account);

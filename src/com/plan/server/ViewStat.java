@@ -6,7 +6,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.LocationOfPlanEntity;
 import com.plan.data.PlanEntity;
 import com.plan.data.TimeOfPlanEntity;
-import com.plan.function.CheckToken;
+import com.plan.function.Config;
 import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -36,8 +36,8 @@ public class ViewStat extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = new DataOpetate();
-            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
+            boolean istoken = Config.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
                 String hql = "from PlanEntity pe where pe.planId=:para1";
                 List list = dataOpetate.SelectTb(hql,plan_id);

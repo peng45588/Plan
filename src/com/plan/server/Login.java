@@ -4,8 +4,8 @@ package com.plan.server;/**
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.UserEntity;
+import com.plan.function.Config;
 import com.plan.function.DataOpetate;
-import com.plan.function.MD5;
 import com.plan.function.PrintToHtml;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONException;
@@ -34,13 +34,13 @@ public class Login extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = new DataOpetate();
+            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
             List it = dataOpetate.SelectTb("from UserEntity as user where user.account =:para1", account);
             if (it.size() == 1) {
                 UserEntity user = (UserEntity) it.get(0);
                 if (user.getPassword().equals(password_md5)) {//判斷密碼是否正確
                     int x = (int) (Math.random() * 100);
-                    String token = MD5.MD5(x + "");
+                    String token = Config.MD5(x + "");
                     user.setToken(token);
                     dataOpetate.UpdataTb(user);
                     obj.put("status", 1);

@@ -4,10 +4,7 @@ package com.plan.server;/**
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.UserEntity;
-import com.plan.function.CheckToken;
-import com.plan.function.DataOpetate;
-import com.plan.function.MD5;
-import com.plan.function.PrintToHtml;
+import com.plan.function.*;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,8 +33,8 @@ public class UserInfo extends ActionSupport implements ServletResponseAware {
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = new DataOpetate();
-            boolean istoken = CheckToken.CheckToken(dataOpetate, account, token);
+            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
+            boolean istoken = Config.CheckToken(dataOpetate, account, token);
             if (istoken) {//token正確
                 List it = dataOpetate.SelectTb("from UserEntity as user where user.account =:para1", user_account);
                 if (it.size() == 1) {

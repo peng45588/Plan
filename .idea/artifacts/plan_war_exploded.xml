@@ -10,11 +10,11 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="Hibernate" />
           <element id="library" level="project" name="Struts 2" />
-          <element id="library" level="project" name="Spring" />
           <element id="library" level="project" name="java-json" />
           <element id="library" level="project" name="mysql-connector-java-5.1.35-bin" />
           <element id="library" level="project" name="commons-logging-1.1.1" />
-          <element id="library" level="project" name="com.springsource.net.sf.cglib-sources-2.2.0" />
+          <element id="library" level="project" name="spring-aop-4.1.6.RELEASE-javadoc" />
+          <element id="library" level="project" name="aopalliance" />
         </element>
       </element>
       <element id="library" level="project" name="javax.annotation" />

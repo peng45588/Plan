@@ -5,7 +5,8 @@
       <element id="artifact" artifact-name="plan:war exploded" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="lib">
-          <element id="library" level="project" name="javax.annotation" />
+          <element id="library" level="project" name="aopalliance" />
+          <element id="library" level="project" name="spring-aop-4.1.6.RELEASE-javadoc" />
         </element>
       </element>
     </root>

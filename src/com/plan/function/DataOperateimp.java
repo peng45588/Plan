@@ -14,9 +14,11 @@ public interface DataOperateimp {
     Session session = null;
     SessionFactory sf = null;
     Configuration config = null;
+    void opBegin();
+    void opEnd();
 
-    public Session getSession();
-    public void Close();
+    Session getSession();
+    void Close();
     public void Save(Object o);
     public List SelectTb(String hql,String account);
     public List SelectTb(String hql);

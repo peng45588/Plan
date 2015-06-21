@@ -5,6 +5,7 @@ package com.plan.server;/**
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.FriendEntity;
 import com.plan.data.UserEntity;
+import com.plan.function.Config;
 import com.plan.function.DataOpetate;
 import com.plan.function.PrintToHtml;
 import com.plan.function.UploadPhoto;
@@ -45,7 +46,7 @@ public class Register extends ActionSupport implements ServletResponseAware {
         fe.setUserAccount(account);
         JSONObject obj = new JSONObject();
         try {
-            DataOpetate dataOpetate = new DataOpetate();
+            DataOpetate dataOpetate = (DataOpetate) Config.getInstance().getBean("dataop");
             dataOpetate.Save(user);
             dataOpetate.Save(fe);
             obj.put("status",1);
