@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class UploadPhoto {
     public static String UploadPhoto(String imgStr,String account){
-        String path = "./upload";
+        String path = ServletActionContext.getServletContext().getRealPath("/")+"upload";
         String retPath = "upload/"+account+"/";
         File file = new File(path);
         if (!file.exists()){

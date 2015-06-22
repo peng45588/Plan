@@ -39,7 +39,7 @@ public class Invite extends ActionSupport implements ServletResponseAware {
             if (istoken) {//token正確
                 String hql = "from PlanEntity p where p.planId = " +
                         "any(select planId from PeopleInPlanEntity pe where pe.account=:para1" +
-                        " and pe.returnTime is null)";
+                        " and pe.returnTime is null and pe.returnTime > 0)";
                 List list = dataop.SelectTb(hql,account);
                 //person 不知道該怎麼存與傳
                 for (int i = 0; i < list.size(); i++) {
