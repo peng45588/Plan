@@ -4,8 +4,6 @@ package com.plan.server;/**
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.plan.data.LocationOfPlanEntity;
-import com.plan.data.PlanEntity;
-import com.plan.data.UserEntity;
 import com.plan.function.Config;
 import com.plan.function.DataOperate;
 import com.plan.function.PrintToHtml;

@@ -43,19 +43,24 @@ public class ConfirmPlan extends ActionSupport implements ServletResponseAware {
                 List list = dataop.SelectTb(hql,plan_id);
                 if (list.size()==1){
                     PlanEntity pe = (PlanEntity) list.get(0);
-                    long thisTime = System.currentTimeMillis();//ms TODO 客户端一般存的是ms还是s
-                    //判断是否可以设置时间地点
+
+                    long thisTime = System.currentTimeMillis();//ms
+                    //判断是否可以设置时间地点:当前时间未到ddl且有人未回复时
                     hql = "from PeopleInPlanEntity as pp where pp.planId=:para1";
                     List listPeople = dataop.SelectTb(hql,plan_id);
                     for (int i=0;i<listPeople.size();i++){
                         PeopleInPlanEntity pp = (PeopleInPlanEntity) listPeople.get(i);
-                        if (pp.getReturnTime()==null||pp.getReturnTime()==-1) {
-                            obj.put("status", 3);
-                            ret = obj.toString();
-                            PrintToHtml.PrintToHtml(response, ret);
-                            return null;
+                        if (pp.getReturnTime()==null) {
+                            //判断是否到之前设定的ddl
+                            if (thisTime <= pe.getDeadline()){
+                                obj.put("status", 3);
+                                ret = obj.toString();
+                                PrintToHtml.PrintToHtml(response, ret);
+                                return null;
+                            }
                         }
                     }
+
                     if (pe.getTime()==null&&pe.getLocation()==null){
                         JSONObject jsonObject = new JSONObject(location);
                         pe.setTime(time);

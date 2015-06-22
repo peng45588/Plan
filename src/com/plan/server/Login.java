@@ -45,9 +45,10 @@ public class Login extends ActionSupport implements ServletResponseAware {
                     dataop.UpdataTb(user);
                     obj.put("status", 1);
                     obj.put("token", user.getToken());
-                }
+                }else
+                    obj.put("status", 0);
             } else
-                obj.put("status", 0);
+                obj.put("status", 2);
         } catch (Exception e) {
             try {
                 obj.put("status", 0);

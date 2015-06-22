@@ -3,7 +3,7 @@ package com.plan.data;
 import javax.persistence.*;
 
 /**
- * Created by snow on 15-6-21.
+ * Created by snow on 15-6-23.
  */
 @Entity
 @Table(name = "Plan", schema = "", catalog = "Plan")
@@ -16,6 +16,7 @@ public class PlanEntity {
     private long deadline;
     private Double locationLat;
     private Double locationLon;
+    private String account;
 
     @Basic
     @Column(name = "title", nullable = false, insertable = true, updatable = true, length = 45)
@@ -97,6 +98,16 @@ public class PlanEntity {
         this.locationLon = locationLon;
     }
 
+    @Basic
+    @Column(name = "account", nullable = false, insertable = true, updatable = true, length = 45)
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -112,6 +123,7 @@ public class PlanEntity {
         if (info != null ? !info.equals(that.info) : that.info != null) return false;
         if (locationLat != null ? !locationLat.equals(that.locationLat) : that.locationLat != null) return false;
         if (locationLon != null ? !locationLon.equals(that.locationLon) : that.locationLon != null) return false;
+        if (account != null ? !account.equals(that.account) : that.account != null) return false;
 
         return true;
     }
@@ -126,6 +138,7 @@ public class PlanEntity {
         result = 31 * result + (int) (deadline ^ (deadline >>> 32));
         result = 31 * result + (locationLat != null ? locationLat.hashCode() : 0);
         result = 31 * result + (locationLon != null ? locationLon.hashCode() : 0);
+        result = 31 * result + (account != null ? account.hashCode() : 0);
         return result;
     }
 }

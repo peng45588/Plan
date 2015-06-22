@@ -3,6 +3,7 @@ package com.plan.server;/**
  */
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.plan.data.LocationOfPlanEntity;
 import com.plan.data.PlanEntity;
 import com.plan.data.UserEntity;
 import com.plan.function.Config;
@@ -37,29 +38,51 @@ public class Invite extends ActionSupport implements ServletResponseAware {
             DataOperate dataop = new DataOperate();
             boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {//token正確
+                // returnTime 不为null 且当前时间小于ddl才可以被拉过去
                 String hql = "from PlanEntity p where p.planId = " +
                         "any(select planId from PeopleInPlanEntity pe where pe.account=:para1" +
-                        " and pe.returnTime is null and pe.returnTime > 0)";
-                List list = dataop.SelectTb(hql,account);
-                //person 不知道該怎麼存與傳
+                        " and pe.returnTime is null) and p.deadline > :para2";
+                List list = dataop.SelectTb(hql,account,System.currentTimeMillis());
+
                 for (int i = 0; i < list.size(); i++) {
                     PlanEntity pe = (PlanEntity) list.get(i);
+                    //获取timelist
+                    hql = "select time from TimeOfPlanEntity as tope where tope.planId = :para1";
+                    List listTope = dataop.SelectTb(hql,pe.getPlanId());
 
-                    JSONObject location = new JSONObject();
-                    location.put("location",pe.getLocation());
-                    location.put("lat",pe.getLocationLat());
-                    location.put("lon",pe.getLocationLon());
+                    JSONArray timelist = new JSONArray();
+                    for (int j=0;j<listTope.size();j++) {
+                        timelist.put(listTope.get(j));
+                    }
+
+                    //获取地点list
+                    hql = "from LocationOfPlanEntity as lope where lope.planId = :para1";
+                    List listLope = dataop.SelectTb(hql,pe.getPlanId());
+
+                    JSONArray location = new JSONArray();
+                    for (int j=0;j<listLope.size();j++) {
+                        LocationOfPlanEntity lope = (LocationOfPlanEntity) listLope.get(j);
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("location",lope.getLocation());
+                        jsonObject.put("lat",lope.getLat());
+                        jsonObject.put("lon",lope.getLon());
+                        location.put(jsonObject);
+                    }
+
 
                     JSONObject jsob = new JSONObject();
+
+                    jsob.put("location_list", location);
+                    jsob.put("time_list", timelist);
+
                     jsob.put("title", pe.getTitle());
                     jsob.put("info", pe.getInfo());
                     jsob.put("time", pe.getTime());
-                    jsob.put("location", location);
+                    jsob.put("ddl", pe.getDeadline());
                     jsob.put("plan_id", pe.getPlanId());
                     //查询person
                     hql = "from UserEntity user where user.account = " +
-                            "(select account from PeopleInPlanEntity as pp where pp.planId=:para1" +
-                            " and pp.returnTime is not null)";
+                            "any(select account from PeopleInPlanEntity as pp where pp.planId=:para1)";
                     List listPerson = dataop.SelectTb(hql,pe.getPlanId());
                     JSONArray jsPerson = new JSONArray();
                     for (int j=0;j<listPerson.size();j++){

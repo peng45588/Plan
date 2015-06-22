@@ -83,4 +83,5 @@ public class AddFriend extends ActionSupport implements ServletResponseAware {
     public void setFriend_account(String friend_account) {
         this.friend_account = friend_account;
     }
+
 }

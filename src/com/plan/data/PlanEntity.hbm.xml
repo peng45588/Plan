@@ -29,5 +29,8 @@
         <property name="locationLon">
             <column name="locationLon" sql-type="double" precision="22"/>
         </property>
+        <property name="account">
+            <column name="account" sql-type="varchar" length="45" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>

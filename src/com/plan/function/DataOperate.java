@@ -82,6 +82,16 @@ public class DataOperate {
         opEnd();
         return it;
     }
+    public List SelectTb(String hql,String para1,long para2){
+        opBegin();
+        List it;
+        Query query = this.session.createQuery(hql);
+        query.setString("para1",para1);
+        query.setLong("para2",para2);
+        it = query.list();
+        opEnd();
+        return it;
+    }
     public List SelectTb(String hql){
         opBegin();
         List it;

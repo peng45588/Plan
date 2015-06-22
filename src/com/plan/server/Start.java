@@ -48,13 +48,14 @@ public class Start extends ActionSupport implements ServletResponseAware {
                 pe.setTitle(title);
                 pe.setDeadline(ddl);
                 pe.setInfo(info);
-
-                dataop.Save(pe);
+                pe.setAccount(account);
                 List list = dataop.SelectTb("from PlanEntity where title = :para1 and info = :para2",title,info);
-                if (list.size()==1)
+                if (list.size()==0) {
+                    dataop.Save(pe);
+                    list = dataop.SelectTb("from PlanEntity where title = :para1 and info = :para2",title,info);
                     pe = (PlanEntity) list.get(0);
-                else{//title info 衝突
-                    obj.put("status",0);
+                }else{//title info 衝突
+                    obj.put("status",3);
                     ret = obj.toString();
                     PrintToHtml.PrintToHtml(response, ret);
                     return null;

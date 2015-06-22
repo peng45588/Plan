@@ -4,11 +4,9 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://localhost:3306/Plan?useUnicode=true&amp;characterEncoding=UTF-8</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/Plan</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password">PENGZHI</property>
 
         <mapping resource="com/plan/data/FriendEntity.hbm.xml"/>
         <mapping class="com.plan.data.FriendEntity"/>
