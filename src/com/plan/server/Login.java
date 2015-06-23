@@ -48,7 +48,7 @@ public class Login extends ActionSupport implements ServletResponseAware {
                 }else
                     obj.put("status", 0);
             } else
-                obj.put("status", 2);
+                obj.put("status", 0);
         } catch (Exception e) {
             try {
                 obj.put("status", 0);

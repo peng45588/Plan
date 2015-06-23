@@ -28,7 +28,7 @@ public class GetPosition extends ActionSupport implements ServletResponseAware {
 
 
     private String token;
-    private String plan_id;
+    private int plan_id;
 
     //定义处理用户请求的execute方法
     public String execute() {
@@ -40,8 +40,8 @@ public class GetPosition extends ActionSupport implements ServletResponseAware {
             boolean istoken = Config.CheckToken(dataop, account, token);
             if (istoken) {//token正確
                 String hql = "from UserEntity as user where user.account =" +
-                        "(select account from PeopleInPlanEntity as pp where pp.planId = :para1" +
-                        "and pp.returnTime is not null)";
+                        "any(select account from PeopleInPlanEntity as pp where pp.planId = :para1" +
+                        " and pp.returnTime is not null)";
                 List it = dataop.SelectTb(hql, plan_id);
                 JSONArray jsonArray = new JSONArray();
                 for (int i=0;i<it.size();i++){
@@ -84,11 +84,11 @@ public class GetPosition extends ActionSupport implements ServletResponseAware {
         this.token = token;
     }
 
-    public String getPlan_id() {
+    public int getPlan_id() {
         return plan_id;
     }
 
-    public void setPlan_id(String plan_id) {
+    public void setPlan_id(int plan_id) {
         this.plan_id = plan_id;
     }
 }

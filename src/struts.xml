@@ -24,7 +24,6 @@
                 <action name="get_position" class="com.plan.server.GetPosition"></action>
                 <action name="select_position" class="com.plan.server.SelectPosition"></action>
                 <action name="get_plan_location" class="com.plan.server.GetPlanLocation"></action>
-                <action name="get_users_vent" class="com.plan.server.GetUserEvent"></action>
-
+                <action name="get_users_event" class="com.plan.server.GetUserEvent"></action>
         </package>
 </struts>

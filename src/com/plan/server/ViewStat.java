@@ -45,6 +45,7 @@ public class ViewStat extends ActionSupport implements ServletResponseAware {
                     PlanEntity pe = (PlanEntity) list.get(0);
                     obj.put("title",pe.getTitle());
                     obj.put("info",pe.getInfo());
+                    obj.put("ddl",pe.getDeadline());
                     hql = "from TimeOfPlanEntity te where te.planId=:para1";
                     list = dataop.SelectTb(hql,plan_id);
                     JSONArray jsarray = new JSONArray();

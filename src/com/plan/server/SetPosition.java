@@ -27,12 +27,13 @@ public class SetPosition extends ActionSupport implements ServletResponseAware {
 
 
     private String token;
-    private String my_position;
+    private double lat;
+    private double lon;
 
 
     //定义处理用户请求的execute方法
     public String execute() {
-        System.err.println("SetPosition:" + account + "," + token + "," + my_position);
+        System.err.println("SetPosition:" + account + "," + token + "," + lat+","+lon);
         String ret = "";
         JSONObject obj = new JSONObject();
         try {
@@ -42,9 +43,8 @@ public class SetPosition extends ActionSupport implements ServletResponseAware {
                 List it = dataop.SelectTb("from UserEntity as user where user.account =:para1", account);
                 if (it.size() == 1) {
                     UserEntity user = (UserEntity) it.get(0);
-                    JSONObject jsonObject = new JSONObject(my_position);
-                    user.setLat(jsonObject.getDouble("lat"));
-                    user.setLon(jsonObject.getDouble("lon"));
+                    user.setLat(lat);
+                    user.setLon(lon);
                     dataop.UpdataTb(user);
                 } else
                     obj.put("status", 0);
@@ -78,11 +78,19 @@ public class SetPosition extends ActionSupport implements ServletResponseAware {
         this.token = token;
     }
 
-    public String getMy_position() {
-        return my_position;
+    public double getLat() {
+        return lat;
     }
 
-    public void setMy_position(String my_position) {
-        this.my_position = my_position;
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 }
