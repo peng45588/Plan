@@ -60,7 +60,7 @@ public class View extends ActionSupport implements ServletResponseAware {
                     jsob.put("plan_id", pe.getPlanId());
                     //查询person
                     hql = "from UserEntity user where user.account = " +
-                            "(select account from PeopleInPlanEntity as pp where pp.planId=:para1" +
+                            "any(select account from PeopleInPlanEntity as pp where pp.planId=:para1" +
                             " and pp.returnTime is not null)";
                     List listPerson = dataop.SelectTb(hql, pe.getPlanId());
                     JSONArray jsPerson = new JSONArray();
