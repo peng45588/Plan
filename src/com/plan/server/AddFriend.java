@@ -21,7 +21,6 @@ public class AddFriend extends ActionSupport implements ServletResponseAware {
     private String token;
     private String friend_account;
 
-
     @Override
     public void setServletResponse(HttpServletResponse httpServletResponse) {
         this.response = httpServletResponse;
